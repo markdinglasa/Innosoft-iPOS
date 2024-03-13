@@ -13,3 +13,16 @@
 
 ## TO START
 * You can tender any item in the POS to test if the function is working as expected.
+
+## FILE LOCATION
+-   Option 1. 
+```bash
+    C:\\
+```
+-   The software automatically creates the SIA folder, but some instances it won't be able to create hence it needs administrator access to create a file in C dir
+
+-   Option 2.
+```bash
+    D:\\
+```
+-  Use D dir if option 1 is not applicable
