@@ -18,13 +18,13 @@
 Option 1. 
 ```bash
     C:\SIA\
-    C:\ipos.accde
+    C:\pos13-sm.accde
 ```
 -   The software automatically creates the SIA folder, but some instances it won't be able to create hence it needs administrator access to create a file in C dir
 
 Option 2.
 ```bash
     D:\SIA\
-    D:\ipos.accde
+    D:\pos13-sm.accde
 ```
 -  Use D dir if option 1 is not applicable
