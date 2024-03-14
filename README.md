@@ -11,8 +11,6 @@
 ## ADDED FUNCTION
 * In POS Sales upon selecting an Item and tendering. The data would be saved in tmpSM(CSV) and the progam would automatically create a folder named SIA and a file of Transaction with a complete name of the cuurent month and year which is 03_2024_Transactions.csv . This file contains all of the transaction within that month.
 
-## TO START
-* You can tender any item in the POS to test if the function is working as expected.
 
 ## FILE LOCATION
 Option 1. 
@@ -28,3 +26,12 @@ Option 2.
     D:\pos13-sm.accde
 ```
 -  Use D dir if option 1 is not applicable
+
+## REQUIREMENT
+1. Microsoft SQL Server 2008 R2
+2. Microsoft Office 2021
+3. CSV Viewer/Reader
+
+## TO START
+*   Install the requirements first before starting the program
+*   You can tender any item in the POS to test if the function is working as expected.
