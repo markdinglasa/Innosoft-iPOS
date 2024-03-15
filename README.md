@@ -38,3 +38,4 @@ Option 2.
 
 # LOGS
 * [20240315] Add new field [IsReturn] to the TrnCollection, for Identifying a Returned or Refunded Collection, 1 Identifies as Returned, 2 Identifies as Refundend and 0 is the state where there were no actions yet. 
+* [20240315] Fixed the creation of CVS in SIA
