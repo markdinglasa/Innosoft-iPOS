@@ -38,6 +38,7 @@ Option 2.
 ## TO START
 *   Install the requirements first before starting the program
 *   Install and initiate innosoft-sia
+*   Re-link the table TrnPaxTable and TrnCollection
 *   Start iPOS
 
 # LOGS
