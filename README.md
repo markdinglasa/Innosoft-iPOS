@@ -1,10 +1,7 @@
 ## VERSION 20240605
-* Date completed Wednesday, March 03, 2024
+* Date completed updated, March 03, 2024
 * Date updated Friday, May 07, 2024
-
-## SOFTWARE DEVELOPERS
-*   Mark Gregory Pradilla
-*   Mark Dinglasa
+* Date updated Tuesday, July 16, 2024
 
 ## PURPOSE
 * This program is for SM Acreditation
@@ -32,7 +29,7 @@ Option 2.
 1. Microsoft SQL Server 2008 R2
 2. Microsoft Office 2010
 3. Access Run Time 2010
-4. pos13_clean backup
+4. innosoft-sia
 5. CSV Viewer/Reader
 
 ## DATABASE
@@ -40,7 +37,8 @@ Option 2.
 
 ## TO START
 *   Install the requirements first before starting the program
-*   You can tender any item in the POS to test if the function is working as expected.
+*   Install and initiate innosoft-sia
+*   Start iPOS
 
 # LOGS
 - [2024/03/15] Add new field [IsReturn] to the TrnCollection, for Identifying a Returned or Refunded Collection, 1 Identifies as Returned, 2 Identifies as Refundend and 0 is the state where there were no actions yet. 
@@ -48,6 +46,3 @@ Option 2.
 - [2024/06/03] Fix the Filter sales summary of GCash sales where it only show the collection
 - [2024/06/03] Fix and Change the Delivery Report to Warranty
 - [2024/06/07] Set the F1 SearchItem to SetFocus on SearchItem text-input 
-
-
-
