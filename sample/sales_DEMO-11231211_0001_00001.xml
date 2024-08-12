@@ -1,0 +1,114 @@
+<root>
+<id>
+  <tenantid>DEMO-11231211</tenantid>
+  <key>Innosoft Solutions</key>
+  <tmid>0001</tmid>
+  <doc>SALES_EOD</doc>
+</id>
+<sales>
+  <date>20240812</date>
+  <zcounter>1</zcounter>
+  <previousnrgt>0.00</previousnrgt>
+  <nrgt>300.00</nrgt>
+  <previoustax>0.00</previoustax>
+  <newtax>32.14</newtax>
+  <previoustaxsale>0.00</previoustaxsale>
+  <newtaxsale>300.00</newtaxsale>
+  <previousnotaxsale>0.00</previousnotaxsale>
+  <newnotaxsale>0.00</newnotaxsale>
+  <opentime>20240812132728</opentime>
+  <closetime>20240812132728</closetime>
+  <gross>300.00</gross>
+  <vat>32.14</vat>
+  <localtax>0.00</localtax>
+  <amusement>0.00</amusement>
+  <taxsale>300.00</taxsale>
+  <notaxsale>0.00</notaxsale>
+  <zerosale>0.00</zerosale>
+  <void>0.00</void>
+  <voidcnt>0</voidcnt>
+  <disc>0.00</disc>
+  <disccnt>0</disccnt>
+  <refund>0.00</refund>
+  <refundcnt>0</refundcnt>
+  <senior>0.00</senior>
+  <seniorcnt>0</seniorcnt>
+  <pwd>0.00</pwd>
+  <pwdcnt>0</pwdcnt>
+  <diplomat>0.00</diplomat>
+  <diplomatcnt>0</diplomatcnt>
+  <service>0.00</service>
+  <servicecnt>0</servicecnt>
+  <receiptstart>0010001000003</receiptstart>
+  <receiptend>0010001000003</receiptend>
+  <trxcnt>1</trxcnt>
+  <cash>300.00</cash>
+  <cashcnt>1</cashcnt>
+  <credit>0.00</credit>
+  <creditcnt>0</creditcnt>
+  <charge>0.00</charge>
+  <chargecnt>0</chargecnt>
+  <giftcheck>0.00</giftcheck>
+  <giftcheckcnt>0</giftcheckcnt>
+  <othertender>0.00</othertender>
+  <othertendercnt>0</othertendercnt>
+<trx>
+  <receiptno>0010001000003</receiptno>
+  <void>0.00</void>
+  <cash>300.00</cash>
+  <credit>0.00</credit>
+  <charge>0.00</charge>
+  <giftcheck>0.00</giftcheck>
+  <othertender>0.00</othertender>
+  <linedisc>0.00</linedisc>
+  <linesenior>0.00</linesenior>
+  <evat>0.00</evat>
+  <linepwd>0.00</linepwd>
+  <linediplomat>0.00</linediplomat>
+  <subtotal>300.00</subtotal>
+  <disc>0.00</disc>
+  <senior>0.00</senior>
+  <pwd>0.00</pwd>
+  <diplomat>0.00</diplomat>
+  <vat>32.14</vat>
+  <exvat>0.00</exvat>
+  <incvat>32.14</incvat>
+  <localtax>0.00</localtax>
+  <amusement>0.00</amusement>
+  <service>0.00</service>
+  <taxsale>300.00</taxsale>
+  <notaxsale>0.00</notaxsale>
+  <taxexsale>0.00</taxexsale>
+  <taxincsale>300.00</taxincsale>
+  <zerosale>0.00</zerosale>
+  <customercount>1</customercount>
+  <gross>300.00</gross>
+  <refund>0.00</refund>
+  <taxrate>12.00</taxrate>
+  <posted>20240812143118</posted>
+  <memo></memo>
+<line>
+  <sku>001202</sku>
+  <qty>3.00</qty>
+  <unitprice>100.00</unitprice>
+  <disc>0.00</disc>
+  <senior>0.00</senior>
+  <pwd>0.00</pwd>
+  <diplomat>0.00</diplomat>
+  <taxtype>0</taxtype>
+  <tax>32.14</tax>
+  <memo></memo>
+  <total>300.00</total>
+</line>
+</trx>
+</sales>
+<master>
+  <product>
+    <sku>001202</sku>
+    <name> b12 germany inject 10ml</name>
+    <inventory>1</inventory>
+    <price>100</price>
+    <category>veterinaries</category>
+  </product>
+</master>
+</root>
