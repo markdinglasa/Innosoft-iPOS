@@ -10,7 +10,6 @@
 ## REQUIREMENT
 1. Microsoft SQL Server 2022
 2. Microsoft SQL Server Management 20.1
-2. Microsoft Office 2010
 3. Access Run Time 2010
 
 # LOGS
