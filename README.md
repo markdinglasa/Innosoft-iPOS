@@ -4,11 +4,12 @@
 * Date updated Tuesday, July 16, 2024
 * Date updated Saturday, August 31, 2024
 
-## PURPOSE
-* This programs is for Accreditation
+## NOTE
+* This programs is the latest version of innosoft pos, iPOS-MYK
 
 ## REQUIREMENT
-1. Microsoft SQL Server 2008 R2
+1. Microsoft SQL Server 2022
+2. Microsoft SQL Server Management 20.1
 2. Microsoft Office 2010
 3. Access Run Time 2010
 
@@ -18,4 +19,7 @@
 - [2024/06/03] Fix the Filter sales summary of GCash sales where it only show the collection
 - [2024/06/03] Fix and Change the Delivery Report to Warranty
 - [2024/06/07] Set the F1 SearchItem to SetFocus on SearchItem text-input
+- [2024/07/16] Fix SM Sales Insight and Analytics
+- [2024/08/12] Ongoing-development Alliance Sales (EOD) report sending, for E-Mall & MCIAA
+- [2024/08/29] Fix Robinsons Mall Sales report sending
 - [2024/08/31] Updated Database from v2008 to v2022. Updated its corresponding functions of auto create on add. Fixed
