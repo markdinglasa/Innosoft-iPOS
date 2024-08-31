@@ -16,4 +16,5 @@
 - [2024/03/15] Fixed the creation of CVS in SIA
 - [2024/06/03] Fix the Filter sales summary of GCash sales where it only show the collection
 - [2024/06/03] Fix and Change the Delivery Report to Warranty
-- [2024/06/07] Set the F1 SearchItem to SetFocus on SearchItem text-input 
+- [2024/06/07] Set the F1 SearchItem to SetFocus on SearchItem text-input
+- [2024/08/31] Updated Database from v2008 to v2022. Updated its corresponding functions of auto create on add. Fixed
