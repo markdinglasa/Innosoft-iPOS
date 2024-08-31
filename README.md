@@ -23,3 +23,5 @@
 - [2024/08/12] Ongoing-development Alliance Sales (EOD) report sending, for E-Mall & MCIAA
 - [2024/08/29] Fix Robinsons Mall Sales report sending
 - [2024/08/31] Updated Database from v2008 to v2022. Updated its corresponding functions of auto create on add. Fixed
+- [2024/08/31] Updated license & expiry validator.
+- [2024/08/31] Updated footer icon.
