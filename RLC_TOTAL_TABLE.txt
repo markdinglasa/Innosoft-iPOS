@@ -1,0 +1,63 @@
+SELECT 
+    [RLC_TABLE].[TenantId],
+    [RLC_TABLE].[TerminalNumber],
+    FORMAT(SUM([RLC_TABLE].[GrossSalesAmount]), '0.00') AS [GrossAmount],
+    FORMAT(SUM([RLC_TABLE].[TotalTax]), '0.00') AS [TaxAmount],
+    FORMAT(SUM([RLC_TABLE].[VoidAmount]), '0.00') AS [VoidAmount],
+    COUNT([RLC_TABLE].[Void]) AS [VoidTransaction],
+    FORMAT(SUM([RLC_TABLE].[TotalDiscount]), '0.00') AS [DiscountAmount],
+    COUNT([RLC_TABLE].[DiscountTransaction]) AS [DiscountTransaction],
+    FORMAT(SUM([RLC_TABLE].[ReturnAmount]), '0.00') AS [ReturnAmount],
+    SUM([RLC_TABLE].[Return]) AS [ReturnTransaction],
+    0 AS [AdjustmentAmount], 
+    0 AS [AdjustmentTransaction], 
+    FORMAT(SUM([RLC_TABLE].[TotalServiceCharge]), '0.00') AS [ServiceChargeAmount],
+    DCount("ReadingDate","SysRLC","ReadingDate<#" & [Forms]![SysSettings]![RLC_DateMem] & "#") AS [PreviousEOD], 
+    [SysRLC].[CurrentEODAmount] AS [PreviousAmount], 
+    Nz(DCount("Id","TrnCollection","[CollectionDate] < " & [Forms]![RepPOS]![DateReading])+1) AS [CurrentEOD], 
+    FORMAT(SUM([RLC_TABLE].[NetSalesAmount]), '0.00') AS [CurrentEODAmount],
+    [RLC_TABLE].[TransactionDay] AS [TransactionDate],
+    0 AS [NoveltyItemAmount],
+    0 AS [MiscItemAmount],
+    FORMAT(SUM([RLC_TABLE].[OtherLocalTax]), '0.00') AS [LocalTax],
+    FORMAT(SUM([RLC_TABLE].[CreditSalesAmount]), '0.00') AS [LocalTax],
+    FORMAT(SUM([RLC_TABLE].[CreditTaxAmount]), '0.00') AS [CreditTaxAmount]
+FROM 
+    ([RLC_TABLE]
+        LEFT JOIN [SysRLC] ON [SysRLC].[TenantId] = [RLC_TABLE].[TenantId] )
+GROUP BY
+   [RLC_TABLE].[TenantId],
+   [RLC_TABLE].[TerminalNumber],
+   [SysRLC].[CurrentEODAmount],
+   [RLC_TABLE].[TransactionDay]
+
+( 
+TenantId, 
+TerminalNumber, 
+GrossAmount, 
+TaxAmount, 
+VoidAmount, 
+VoidTransaction, 
+DiscountAmount, 
+DiscountTransaction, 
+ReturnAmount, 
+ReturnTransaction, 
+ServiceChargeAmount, 
+PreviousEOD, 
+PreviousAmount,
+CurrentEOD, 
+CurrentEODAmount, 
+TransactionDate, 
+NoveltyItemAmount,
+MiscItemAmount, 
+LocalTax, 
+CreditSalesAmount, 
+CreditTaxAmount, 
+
+NonVATSalesAmount, 
+PharmaItemSalesAmount, 
+NonPharmaItemSalesAmount, 
+DisabilityDiscount, 
+GrossSalesAmountNotSubectToPercentageRent, 
+RePrintedAmount, 
+RePrintedTransaction )

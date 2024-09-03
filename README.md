@@ -31,10 +31,10 @@
 ```
     @echo off
     REM Source folder location
-    set source="YOUR_RLC_FILES_TO_SEND" // change this one, this is where your pos/rlc files located at
+    set source="YOUR_RLC_FILES_TO_SEND" /*change this one, this is where your pos/rlc files located at*/
 
     REM Destination folder on the target computer
-    set destination="\\192.168.1.99\Users\Public\Shared-POS" // this is a sample server location, changes this one
+    set destination="\\IP_ADDRESS\Shared /*this is a sample server location, changes this one*/
 
     REM Transferring the entire folder
     xcopy %source% %destination% /E /I /Y
