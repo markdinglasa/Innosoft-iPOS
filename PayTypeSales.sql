@@ -19,6 +19,11 @@ LEFT JOIN (SELECT [SalesId], SUM([TaxAmount]) AS [TotalTaxAmount] FROM [TrnSales
 LEFT JOIN [SysCurrent] ON [TrnSales].[TerminalId] = [SysCurrent].[TerminalId]) 
 LEFT JOIN [MstPayType] ON [MstPayType].Id = [TrnCollectionLine].[PayTypeId]) 
 LEFT JOIN [MstTerminal] ON [SysCurrent].[TerminalId] = [MstTerminal].[Id]
+WHERE
+    [TrnSales].[IsLocked] 
+    AND DAY([TrnSales].EntryDateTime) = DAY(Date()) 
+    AND MONTH([TrnSales].EntryDateTime) = MONTH(Date()) 
+    AND YEAR([TrnSales].[EntryDateTime]) = YEAR(Date())
 GROUP BY [TrnSales].[Id], [MstTerminal].[Terminal], [SysCurrent].[SMPOSSerialNumber],
 FORMAT(IIF( ([TrnCollection].[IsCancelled] = 0 OR [TrnCollection].[IsCancelled] IS NULL) AND ([TrnCollectionLine].[PayTypeId] = [MstPayType].[Id] AND [MstPayType].[PayType] = 'Credit Card'), [TotalTax].[TotalTaxAmount], 0), '0.00000')
 

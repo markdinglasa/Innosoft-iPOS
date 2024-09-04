@@ -29,6 +29,7 @@ DisabilityDiscount,
 GrossSalesAmountNotSubectToPercentageRent, 
 RePrintedAmount, 
 RePrintedTransaction )
+
 SELECT 
 DFirst("RLC_TenantId","SysCurrent") AS [TenantId], 
 "00000000000000" & Right([MstTerminal].[Terminal],2) AS [TerminalNumber], 
@@ -53,15 +54,16 @@ FORMAT([TrnCollection].[CollectionDate], 'MM/dd/yyyy') AS [TransactionDate],
 IIF([MstTax].[Tax] = 'LOCAL TAX', FORMAT(([TotalTax].[TotalTaxAmount]), '0.00000'), '0.00000') AS [LocalTax], 
 [TmpPayTypeSales].[TotalCreditCardSales] AS [CreditSalesAmount],
 [TmpPayTypeSales].[TotalCreditCardTax] AS [CreditTaxAmount],
-IIF(([TrnCollection].[IsCancelled] = 0 OR [TrnCollection].[IsCancelled] IS NULL) AND ([TrnSalesLine].[TaxAmount] = 0), FORMAT(([GrossSales].[GrossSalesAmount] ), '0.00000'),'0.00000') AS [NonVATSalesAmount],
+IIF(([TrnCollection].[IsCancelled] = 0 OR [TrnCollection].[IsCancelled] IS NULL), FORMAT(([NonVATSales].[NonVATSalesAmount] ), '0.00000'),'0.00000') AS [NonVATSalesAmount],
 0 AS [PharmaItemSalesAmount], 
 0 AS [NonPharmaItemSalesAmount], 
 MAX(IIF(([TrnCollection].[IsCancelled] = 0 OR [TrnCollection].[IsCancelled] IS NULL) AND ([MstDiscount].[Discount] = 'PWD'), FORMAT([TotalDiscount].[TotalDiscountAmount], '0.00000'), 0)) AS [DisabilityDiscount], 
 0 AS [GrossSalesAmountNotSubectToPercentageRent],
-0 AS [RePrintedAmount],
-0 AS [RePrintedTransaction]
+FORMAT(Nz([RLC_REPRINT].[RePrintedAmount], 0), '0.00000') AS [RePrintedAmount],
+Nz(IIF([RLC_REPRINT].[RePrintedTransaction]>0,1,0), 0) AS [RePrintedTransaction]
+
 FROM 
-    (((((((((((((((TrnSales LEFT JOIN TrnSalesLine ON [TrnSalesLine].[SalesId] = [TrnSales].[Id]) 
+    (((((((((((((((((TrnSales LEFT JOIN TrnSalesLine ON [TrnSalesLine].[SalesId] = [TrnSales].[Id]) 
     LEFT JOIN [TrnCollection] ON [TrnSales].[Id] = [TrnCollection].[SalesId]) 
     LEFT JOIN [TmpPayTypeSales] ON [TmpPayTypeSales].[SalesId] = [TrnSales].[Id])
     LEFT JOIN [TrnCollectionLine] ON [TrnCollectionLine].[CollectionId] = [TrnCollection].[Id]) 
@@ -73,12 +75,15 @@ FROM
     LEFT JOIN [MstPayType] ON [MstPayType].[Id] = [TrnCollectionLine].[PayTypeId]) 
     LEFT JOIN [MstTerminal] ON [SysCurrent].[TerminalId] = [MstTerminal].[Id]) 
     LEFT JOIN [MstDiscount] ON [MstDiscount].[Id] = [TrnSalesLine].[DiscountId])
+    LEFT JOIN [RLC_REPRINT] ON [RLC_REPRINT].[CollectionId] = [TrnCollection].[Id])
+    LEFT JOIN (SELECT [SalesId], FORMAT(SUM(IIF([TrnSalesLine].[TaxAmount] = 0, [Amount], 0)), '0.00000') AS [NonVATSalesAmount] FROM [TrnSalesLine] GROUP BY [SalesId])  AS [NonVATSales] ON [TrnSales].[Id] = [NonVATSales].[SalesId]) 
     LEFT JOIN (SELECT [SalesId], SUM([Amount]) AS GrossSalesAmount FROM TrnSalesLine GROUP BY [SalesId])  AS GrossSales ON [TrnSales].[Id] = GrossSales.[SalesId]) 
     LEFT JOIN (SELECT [SalesId], SUM([Amount]) AS ServiceCharge FROM TrnSalesLine WHERE [ItemId] = 1 GROUP BY [SalesId])  AS TotalServiceCharge ON [TrnSales].[Id] = [TotalServiceCharge].[SalesId]) 
-    LEFT JOIN (SELECT [SalesId], SUM([TaxAmount]) AS TotalTaxAmount FROM TrnSalesLine GROUP BY [SalesId])  AS TotalTax ON [TrnSales].[Id] = TotalTax.[SalesId]) 
+    LEFT JOIN (SELECT [SalesId], (SUM([TaxAmount])) AS TotalTaxAmount FROM TrnSalesLine GROUP BY [SalesId])  AS TotalTax ON [TrnSales].[Id] = TotalTax.[SalesId]) 
     LEFT JOIN (SELECT [SalesId], SUM(([DiscountAmount])*([Quantity])) AS TotalDiscountAmount FROM TrnSalesLine GROUP BY [SalesId])  AS TotalDiscount ON [TrnSales].[Id] = [TotalDiscount].[SalesId]
 WHERE
     [TrnSales].[IsLocked] 
+    AND DAY([TrnSales].EntryDateTime) = DAY(Date()) 
     AND MONTH([TrnSales].EntryDateTime) = MONTH(Date()) 
     AND YEAR([TrnSales].[EntryDateTime]) = YEAR(Date())
 GROUP BY 
@@ -109,4 +114,9 @@ IIF([TrnCollection].[IsCancelled] = 0 OR [TrnCollection].[IsCancelled] IS NULL A
 [TmpPayTypeSales].[TotalGiftCertificateSales],
 [TmpPayTypeSales].[TotalOnlineSales],
 [TmpPayTypeSales].[TotalCreditCardSales],
-[TmpPayTypeSales].[TotalCreditCardTax]
+[TmpPayTypeSales].[TotalCreditCardTax],
+IIF(([TrnCollection].[IsCancelled] = 0 OR [TrnCollection].[IsCancelled] IS NULL) AND ([TrnSalesLine].[TaxAmount] = 0), FORMAT(([GrossSales].[GrossSalesAmount] ), '0.00000'),'0.00000'),
+IIF(([TrnCollection].[IsCancelled] = 0 OR [TrnCollection].[IsCancelled] IS NULL), FORMAT(([NonVATSales].[NonVATSalesAmount] ), '0.00000'),'0.00000'),
+Nz(IIF([RLC_REPRINT].[RePrintedTransaction]>0,1,0), 0),
+FORMAT(Nz([RLC_REPRINT].[RePrintedAmount], 0), '0.00000')
+
