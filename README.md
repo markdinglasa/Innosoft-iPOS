@@ -3,6 +3,7 @@
 * Date updated Friday, May 07, 2024
 * Date updated Tuesday, July 16, 2024
 * Date updated Saturday, August 31, 2024
+* Date updated Thursday, September 05, 2024
 
 ## NOTE
 * This programs is the latest version of innosoft pos, iPOS-MYK
@@ -24,3 +25,4 @@
 - [2024/08/31] Updated Database from v2008 to v2022. Updated its corresponding functions of auto create on add. Fixed
 - [2024/08/31] Updated license & expiry validator.
 - [2024/08/31] Updated footer icon.
+- [2024/09/05] Fix and updated RLC Sending
