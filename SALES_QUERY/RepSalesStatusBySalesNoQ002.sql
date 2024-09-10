@@ -12,6 +12,7 @@ IIf([Forms]![RepSales]![FilterMem]=True,"Filtered",""),
 IIf(IsNull([Forms]![RepSales]![T3_UserIdMem]),"*",Trim(Str([TrnSales].[PreparedBy]))), 
 IIf([trnSales].[SalesNumber]>=[Forms]![RepSales]![SalesNoStart] And [trnSales].[SalesNumber]<=[Forms]![RepSales]![SalesNoEnd],True,False), 
 TrnSales.IsCancelled, 
+TrnSales.IsReturn,
 TrnSales.IsLocked
 HAVING (((
     Sum(IIf(IsNull([trncollection].[id]),[TrnSales].[Amount],[TrnCollectionLine].[Amount]-IIf([MstPayType].[PayType]="Cash",[TrnCollection].[ChangeAmount],0))))>0) 
