@@ -1,0 +1,10 @@
+SELECT 
+RepCollectionDailySummaryQ020.Terminal, 
+RepCollectionDailySummaryQ020.TransactionDate, Max(RepCollectionDailySummaryQ020.FirstOR) AS FirstOR, Max(RepCollectionDailySummaryQ020.LastOR) AS LastOR, Sum(RepCollectionDailySummaryQ020.PreviousSalesAmount) AS PreviousSalesAmount, Sum(RepCollectionDailySummaryQ020.GrossSalesAmount) AS GrossSalesAmount, Sum(RepCollectionDailySummaryQ020.SalesAmount) AS SalesAmount, Sum(RepCollectionDailySummaryQ020.VoidSalesAmount) AS VoidSalesAmount, Sum(RepCollectionDailySummaryQ020.SalesWithTaxAmount) AS SalesWithTaxAmount, Sum(RepCollectionDailySummaryQ020.SalesWithoutTaxAmount) AS SalesWithoutTaxAmount, Sum(RepCollectionDailySummaryQ020.TaxAmount) AS TaxAmount, Sum(RepCollectionDailySummaryQ020.DiscountAmount) AS DiscountAmount
+FROM RepCollectionDailySummaryQ020
+GROUP BY RepCollectionDailySummaryQ020.Terminal, RepCollectionDailySummaryQ020.TransactionDate;
+
+/*ORIGIN*/
+SELECT RepCollectionDailySummaryQ020.Terminal, RepCollectionDailySummaryQ020.TransactionDate, Max(RepCollectionDailySummaryQ020.FirstOR) AS FirstOR, Max(RepCollectionDailySummaryQ020.LastOR) AS LastOR, Sum(RepCollectionDailySummaryQ020.PreviousSalesAmount) AS PreviousSalesAmount, Sum(RepCollectionDailySummaryQ020.GrossSalesAmount) AS GrossSalesAmount, Sum(RepCollectionDailySummaryQ020.SalesAmount) AS SalesAmount, Sum(RepCollectionDailySummaryQ020.VoidSalesAmount) AS VoidSalesAmount, Sum(RepCollectionDailySummaryQ020.SalesWithTaxAmount) AS SalesWithTaxAmount, Sum(RepCollectionDailySummaryQ020.SalesWithoutTaxAmount) AS SalesWithoutTaxAmount, Sum(RepCollectionDailySummaryQ020.TaxAmount) AS TaxAmount, Sum(RepCollectionDailySummaryQ020.DiscountAmount) AS DiscountAmount
+FROM RepCollectionDailySummaryQ020
+GROUP BY RepCollectionDailySummaryQ020.Terminal, RepCollectionDailySummaryQ020.TransactionDate;
