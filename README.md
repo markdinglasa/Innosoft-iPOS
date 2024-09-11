@@ -27,6 +27,7 @@
 - [2024/08/31] Updated license & expiry validator.
 - [2024/08/31] Updated footer icon.
 - [2024/09/05] Fix and updated RLC Sending
+- [2024/09/10] Updated Alliance Sales (EOD) report sending, for E-Mall & MCIAA
 - [2024/09/10] Added new Field on TrnSales `IsReturn` as an Indicator for Return/Refund, in which IsReturn = 1 then it is Return if IsReturn = 2 Refund
 - [2024/09/10] Fix Refund, no duplication of Refund
 - [2024/09/10] Fix (Z-Reading, X-Reading, Z-Reading by OR Number, X-Reading By OR Number) in regards of Refund
