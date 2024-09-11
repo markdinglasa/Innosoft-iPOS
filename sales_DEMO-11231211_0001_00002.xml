@@ -1,0 +1,596 @@
+<root>
+<id>
+  <tenantid>DEMO-11231211</tenantid>
+  <key>Innosoft Solutions</key>
+  <tmid>0001</tmid>
+  <doc>SALES_EOD</doc>
+</id>
+<sales>
+<trx>
+  <receiptno>0010001000001</receiptno>
+  <void>0.00</void>
+  <cash>100.00</cash>
+  <credit>0.00</credit>
+  <charge>0.00</charge>
+  <giftcheck>0.00</giftcheck>
+  <othertender>0.00</othertender>
+  <linedisc>0.00</linedisc>
+  <linesenior>0.00</linesenior>
+  <evat>0.00</evat>
+  <linepwd>0.00</linepwd>
+  <linediplomat>0.00</linediplomat>
+  <subtotal>100.00</subtotal>
+  <disc>0.00</disc>
+  <senior>0.00</senior>
+  <pwd>0.00</pwd>
+  <diplomat>0.00</diplomat>
+  <vat>10.71</vat>
+  <exvat>0.00</exvat>
+  <incvat>10.71</incvat>
+  <localtax>0.00</localtax>
+  <amusement>0.00</amusement>
+  <service>0.00</service>
+  <taxsale>89.29</taxsale>
+  <notaxsale>0.00</notaxsale>
+  <taxexsale>0.00</taxexsale>
+  <taxincsale>0.00</taxincsale>
+  <zerosale>0.00</zerosale>
+  <customercount>1</customercount>
+  <gross>100.00</gross>
+  <refund>0.00</refund>
+  <taxrate>12.00</taxrate>
+  <posted>20240910144202</posted>
+  <memo>NA</memo>
+<line>
+  <sku>000023</sku>
+  <qty>1.00</qty>
+  <unitprice>100.00</unitprice>
+  <disc>0.00</disc>
+  <senior>0.00</senior>
+  <pwd>0.00</pwd>
+  <diplomat>0.00</diplomat>
+  <taxtype>0</taxtype>
+  <tax>10.71</tax>
+  <memo>NA</memo>
+  <total>100.00</total>
+</line>
+</trx>
+<trx>
+  <receiptno>0010001000002</receiptno>
+  <void>0.00</void>
+  <cash>100.00</cash>
+  <credit>0.00</credit>
+  <charge>0.00</charge>
+  <giftcheck>0.00</giftcheck>
+  <othertender>0.00</othertender>
+  <linedisc>0.00</linedisc>
+  <linesenior>0.00</linesenior>
+  <evat>0.00</evat>
+  <linepwd>0.00</linepwd>
+  <linediplomat>0.00</linediplomat>
+  <subtotal>100.00</subtotal>
+  <disc>0.00</disc>
+  <senior>0.00</senior>
+  <pwd>0.00</pwd>
+  <diplomat>0.00</diplomat>
+  <vat>10.71</vat>
+  <exvat>0.00</exvat>
+  <incvat>10.71</incvat>
+  <localtax>0.00</localtax>
+  <amusement>0.00</amusement>
+  <service>0.00</service>
+  <taxsale>89.29</taxsale>
+  <notaxsale>0.00</notaxsale>
+  <taxexsale>0.00</taxexsale>
+  <taxincsale>0.00</taxincsale>
+  <zerosale>0.00</zerosale>
+  <customercount>1</customercount>
+  <gross>100.00</gross>
+  <refund>0.00</refund>
+  <taxrate>12.00</taxrate>
+  <posted>20240910144202</posted>
+  <memo>NA</memo>
+<line>
+  <sku>000024</sku>
+  <qty>1.00</qty>
+  <unitprice>100.00</unitprice>
+  <disc>0.00</disc>
+  <senior>0.00</senior>
+  <pwd>0.00</pwd>
+  <diplomat>0.00</diplomat>
+  <taxtype>0</taxtype>
+  <tax>10.71</tax>
+  <memo>NA</memo>
+  <total>100.00</total>
+</line>
+</trx>
+<trx>
+  <receiptno>0010001000003</receiptno>
+  <void>0.00</void>
+  <cash>0.00</cash>
+  <credit>100.00</credit>
+  <charge>0.00</charge>
+  <giftcheck>0.00</giftcheck>
+  <othertender>0.00</othertender>
+  <linedisc>0.00</linedisc>
+  <linesenior>0.00</linesenior>
+  <evat>0.00</evat>
+  <linepwd>0.00</linepwd>
+  <linediplomat>0.00</linediplomat>
+  <subtotal>100.00</subtotal>
+  <disc>0.00</disc>
+  <senior>0.00</senior>
+  <pwd>0.00</pwd>
+  <diplomat>0.00</diplomat>
+  <vat>10.71</vat>
+  <exvat>0.00</exvat>
+  <incvat>10.71</incvat>
+  <localtax>0.00</localtax>
+  <amusement>0.00</amusement>
+  <service>0.00</service>
+  <taxsale>89.29</taxsale>
+  <notaxsale>0.00</notaxsale>
+  <taxexsale>0.00</taxexsale>
+  <taxincsale>0.00</taxincsale>
+  <zerosale>0.00</zerosale>
+  <customercount>1</customercount>
+  <gross>100.00</gross>
+  <refund>0.00</refund>
+  <taxrate>12.00</taxrate>
+  <posted>20240910144202</posted>
+  <memo>NA</memo>
+<line>
+  <sku>000024</sku>
+  <qty>1.00</qty>
+  <unitprice>100.00</unitprice>
+  <disc>0.00</disc>
+  <senior>0.00</senior>
+  <pwd>0.00</pwd>
+  <diplomat>0.00</diplomat>
+  <taxtype>0</taxtype>
+  <tax>10.71</tax>
+  <memo>NA</memo>
+  <total>100.00</total>
+</line>
+</trx>
+<trx>
+  <receiptno>0010001000004</receiptno>
+  <void>0.00</void>
+  <cash>0.00</cash>
+  <credit>0.00</credit>
+  <charge>0.00</charge>
+  <giftcheck>0.00</giftcheck>
+  <othertender>100.00</othertender>
+  <linedisc>0.00</linedisc>
+  <linesenior>0.00</linesenior>
+  <evat>0.00</evat>
+  <linepwd>0.00</linepwd>
+  <linediplomat>0.00</linediplomat>
+  <subtotal>100.00</subtotal>
+  <disc>0.00</disc>
+  <senior>0.00</senior>
+  <pwd>0.00</pwd>
+  <diplomat>0.00</diplomat>
+  <vat>10.71</vat>
+  <exvat>0.00</exvat>
+  <incvat>10.71</incvat>
+  <localtax>0.00</localtax>
+  <amusement>0.00</amusement>
+  <service>0.00</service>
+  <taxsale>89.29</taxsale>
+  <notaxsale>0.00</notaxsale>
+  <taxexsale>0.00</taxexsale>
+  <taxincsale>0.00</taxincsale>
+  <zerosale>0.00</zerosale>
+  <customercount>1</customercount>
+  <gross>100.00</gross>
+  <refund>0.00</refund>
+  <taxrate>12.00</taxrate>
+  <posted>20240910144202</posted>
+  <memo>NA</memo>
+<line>
+  <sku>000022</sku>
+  <qty>1.00</qty>
+  <unitprice>100.00</unitprice>
+  <disc>0.00</disc>
+  <senior>0.00</senior>
+  <pwd>0.00</pwd>
+  <diplomat>0.00</diplomat>
+  <taxtype>0</taxtype>
+  <tax>10.71</tax>
+  <memo>NA</memo>
+  <total>100.00</total>
+</line>
+</trx>
+<trx>
+  <receiptno>0010001000005</receiptno>
+  <void>0.00</void>
+  <cash>0.00</cash>
+  <credit>0.00</credit>
+  <charge>0.00</charge>
+  <giftcheck>0.00</giftcheck>
+  <othertender>100.00</othertender>
+  <linedisc>0.00</linedisc>
+  <linesenior>0.00</linesenior>
+  <evat>0.00</evat>
+  <linepwd>0.00</linepwd>
+  <linediplomat>0.00</linediplomat>
+  <subtotal>100.00</subtotal>
+  <disc>0.00</disc>
+  <senior>0.00</senior>
+  <pwd>0.00</pwd>
+  <diplomat>0.00</diplomat>
+  <vat>10.71</vat>
+  <exvat>0.00</exvat>
+  <incvat>10.71</incvat>
+  <localtax>0.00</localtax>
+  <amusement>0.00</amusement>
+  <service>0.00</service>
+  <taxsale>89.29</taxsale>
+  <notaxsale>0.00</notaxsale>
+  <taxexsale>0.00</taxexsale>
+  <taxincsale>0.00</taxincsale>
+  <zerosale>0.00</zerosale>
+  <customercount>1</customercount>
+  <gross>100.00</gross>
+  <refund>0.00</refund>
+  <taxrate>12.00</taxrate>
+  <posted>20240910144202</posted>
+  <memo>NA</memo>
+<line>
+  <sku>000025</sku>
+  <qty>1.00</qty>
+  <unitprice>100.00</unitprice>
+  <disc>0.00</disc>
+  <senior>0.00</senior>
+  <pwd>0.00</pwd>
+  <diplomat>0.00</diplomat>
+  <taxtype>0</taxtype>
+  <tax>10.71</tax>
+  <memo>NA</memo>
+  <total>100.00</total>
+</line>
+</trx>
+<trx>
+  <receiptno>0010001000006</receiptno>
+  <void>0.00</void>
+  <cash>0.00</cash>
+  <credit>494.00</credit>
+  <charge>0.00</charge>
+  <giftcheck>0.00</giftcheck>
+  <othertender>0.00</othertender>
+  <linedisc>0.00</linedisc>
+  <linesenior>0.00</linesenior>
+  <evat>0.00</evat>
+  <linepwd>0.00</linepwd>
+  <linediplomat>0.00</linediplomat>
+  <subtotal>1494.00</subtotal>
+  <disc>0.00</disc>
+  <senior>0.00</senior>
+  <pwd>0.00</pwd>
+  <diplomat>0.00</diplomat>
+  <vat>160.07</vat>
+  <exvat>0.00</exvat>
+  <incvat>160.07</incvat>
+  <localtax>0.00</localtax>
+  <amusement>0.00</amusement>
+  <service>0.00</service>
+  <taxsale>1333.93</taxsale>
+  <notaxsale>0.00</notaxsale>
+  <taxexsale>0.00</taxexsale>
+  <taxincsale>0.00</taxincsale>
+  <zerosale>0.00</zerosale>
+  <customercount>1</customercount>
+  <gross>1494.00</gross>
+  <refund>0.00</refund>
+  <taxrate>12.00</taxrate>
+  <posted>20240910144202</posted>
+  <memo>NA</memo>
+<line>
+  <sku>000003</sku>
+  <qty>1.00</qty>
+  <unitprice>275.00</unitprice>
+  <disc>0.00</disc>
+  <senior>0.00</senior>
+  <pwd>0.00</pwd>
+  <diplomat>0.00</diplomat>
+  <taxtype>0</taxtype>
+  <tax>160.07</tax>
+  <memo>NA</memo>
+  <total>1494.00</total>
+</line>
+<line>
+  <sku>000004</sku>
+  <qty>1.00</qty>
+  <unitprice>1219.00</unitprice>
+  <disc>0.00</disc>
+  <senior>0.00</senior>
+  <pwd>0.00</pwd>
+  <diplomat>0.00</diplomat>
+  <taxtype>0</taxtype>
+  <tax>160.07</tax>
+  <memo>NA</memo>
+  <total>1494.00</total>
+</line>
+</trx>
+<trx>
+  <receiptno>0010001000006</receiptno>
+  <void>0.00</void>
+  <cash>1000.00</cash>
+  <credit>0.00</credit>
+  <charge>0.00</charge>
+  <giftcheck>0.00</giftcheck>
+  <othertender>0.00</othertender>
+  <linedisc>0.00</linedisc>
+  <linesenior>0.00</linesenior>
+  <evat>0.00</evat>
+  <linepwd>0.00</linepwd>
+  <linediplomat>0.00</linediplomat>
+  <subtotal>1494.00</subtotal>
+  <disc>0.00</disc>
+  <senior>0.00</senior>
+  <pwd>0.00</pwd>
+  <diplomat>0.00</diplomat>
+  <vat>160.07</vat>
+  <exvat>0.00</exvat>
+  <incvat>160.07</incvat>
+  <localtax>0.00</localtax>
+  <amusement>0.00</amusement>
+  <service>0.00</service>
+  <taxsale>1333.93</taxsale>
+  <notaxsale>0.00</notaxsale>
+  <taxexsale>0.00</taxexsale>
+  <taxincsale>0.00</taxincsale>
+  <zerosale>0.00</zerosale>
+  <customercount>1</customercount>
+  <gross>1494.00</gross>
+  <refund>0.00</refund>
+  <taxrate>12.00</taxrate>
+  <posted>20240910144202</posted>
+  <memo>NA</memo>
+<line>
+  <sku>000003</sku>
+  <qty>1.00</qty>
+  <unitprice>275.00</unitprice>
+  <disc>0.00</disc>
+  <senior>0.00</senior>
+  <pwd>0.00</pwd>
+  <diplomat>0.00</diplomat>
+  <taxtype>0</taxtype>
+  <tax>160.07</tax>
+  <memo>NA</memo>
+  <total>1494.00</total>
+</line>
+<line>
+  <sku>000004</sku>
+  <qty>1.00</qty>
+  <unitprice>1219.00</unitprice>
+  <disc>0.00</disc>
+  <senior>0.00</senior>
+  <pwd>0.00</pwd>
+  <diplomat>0.00</diplomat>
+  <taxtype>0</taxtype>
+  <tax>160.07</tax>
+  <memo>NA</memo>
+  <total>1494.00</total>
+</line>
+</trx>
+<trx>
+  <receiptno>0010001000006</receiptno>
+  <void>0.00</void>
+  <cash>0.00</cash>
+  <credit>494.00</credit>
+  <charge>0.00</charge>
+  <giftcheck>0.00</giftcheck>
+  <othertender>0.00</othertender>
+  <linedisc>0.00</linedisc>
+  <linesenior>0.00</linesenior>
+  <evat>0.00</evat>
+  <linepwd>0.00</linepwd>
+  <linediplomat>0.00</linediplomat>
+  <subtotal>1494.00</subtotal>
+  <disc>0.00</disc>
+  <senior>0.00</senior>
+  <pwd>0.00</pwd>
+  <diplomat>0.00</diplomat>
+  <vat>160.07</vat>
+  <exvat>0.00</exvat>
+  <incvat>160.07</incvat>
+  <localtax>0.00</localtax>
+  <amusement>0.00</amusement>
+  <service>0.00</service>
+  <taxsale>1333.93</taxsale>
+  <notaxsale>0.00</notaxsale>
+  <taxexsale>0.00</taxexsale>
+  <taxincsale>0.00</taxincsale>
+  <zerosale>0.00</zerosale>
+  <customercount>1</customercount>
+  <gross>1494.00</gross>
+  <refund>0.00</refund>
+  <taxrate>12.00</taxrate>
+  <posted>20240910144202</posted>
+  <memo>NA</memo>
+<line>
+  <sku>000003</sku>
+  <qty>1.00</qty>
+  <unitprice>275.00</unitprice>
+  <disc>0.00</disc>
+  <senior>0.00</senior>
+  <pwd>0.00</pwd>
+  <diplomat>0.00</diplomat>
+  <taxtype>0</taxtype>
+  <tax>160.07</tax>
+  <memo>NA</memo>
+  <total>1494.00</total>
+</line>
+<line>
+  <sku>000004</sku>
+  <qty>1.00</qty>
+  <unitprice>1219.00</unitprice>
+  <disc>0.00</disc>
+  <senior>0.00</senior>
+  <pwd>0.00</pwd>
+  <diplomat>0.00</diplomat>
+  <taxtype>0</taxtype>
+  <tax>160.07</tax>
+  <memo>NA</memo>
+  <total>1494.00</total>
+</line>
+</trx>
+<trx>
+  <receiptno>0010001000006</receiptno>
+  <void>0.00</void>
+  <cash>1000.00</cash>
+  <credit>0.00</credit>
+  <charge>0.00</charge>
+  <giftcheck>0.00</giftcheck>
+  <othertender>0.00</othertender>
+  <linedisc>0.00</linedisc>
+  <linesenior>0.00</linesenior>
+  <evat>0.00</evat>
+  <linepwd>0.00</linepwd>
+  <linediplomat>0.00</linediplomat>
+  <subtotal>1494.00</subtotal>
+  <disc>0.00</disc>
+  <senior>0.00</senior>
+  <pwd>0.00</pwd>
+  <diplomat>0.00</diplomat>
+  <vat>160.07</vat>
+  <exvat>0.00</exvat>
+  <incvat>160.07</incvat>
+  <localtax>0.00</localtax>
+  <amusement>0.00</amusement>
+  <service>0.00</service>
+  <taxsale>1333.93</taxsale>
+  <notaxsale>0.00</notaxsale>
+  <taxexsale>0.00</taxexsale>
+  <taxincsale>0.00</taxincsale>
+  <zerosale>0.00</zerosale>
+  <customercount>1</customercount>
+  <gross>1494.00</gross>
+  <refund>0.00</refund>
+  <taxrate>12.00</taxrate>
+  <posted>20240910144202</posted>
+  <memo>NA</memo>
+<line>
+  <sku>000003</sku>
+  <qty>1.00</qty>
+  <unitprice>275.00</unitprice>
+  <disc>0.00</disc>
+  <senior>0.00</senior>
+  <pwd>0.00</pwd>
+  <diplomat>0.00</diplomat>
+  <taxtype>0</taxtype>
+  <tax>160.07</tax>
+  <memo>NA</memo>
+  <total>1494.00</total>
+</line>
+<line>
+  <sku>000004</sku>
+  <qty>1.00</qty>
+  <unitprice>1219.00</unitprice>
+  <disc>0.00</disc>
+  <senior>0.00</senior>
+  <pwd>0.00</pwd>
+  <diplomat>0.00</diplomat>
+  <taxtype>0</taxtype>
+  <tax>160.07</tax>
+  <memo>NA</memo>
+  <total>1494.00</total>
+</line>
+</trx>
+<trx>
+  <receiptno>0010001000007</receiptno>
+  <void>0.00</void>
+  <cash>0.00</cash>
+  <credit>0.00</credit>
+  <charge>0.00</charge>
+  <giftcheck>0.00</giftcheck>
+  <othertender>100.00</othertender>
+  <linedisc>0.00</linedisc>
+  <linesenior>0.00</linesenior>
+  <evat>0.00</evat>
+  <linepwd>0.00</linepwd>
+  <linediplomat>0.00</linediplomat>
+  <subtotal>100.00</subtotal>
+  <disc>0.00</disc>
+  <senior>0.00</senior>
+  <pwd>0.00</pwd>
+  <diplomat>0.00</diplomat>
+  <vat>10.71</vat>
+  <exvat>0.00</exvat>
+  <incvat>10.71</incvat>
+  <localtax>0.00</localtax>
+  <amusement>0.00</amusement>
+  <service>0.00</service>
+  <taxsale>89.29</taxsale>
+  <notaxsale>0.00</notaxsale>
+  <taxexsale>0.00</taxexsale>
+  <taxincsale>0.00</taxincsale>
+  <zerosale>0.00</zerosale>
+  <customercount>1</customercount>
+  <gross>100.00</gross>
+  <refund>0.00</refund>
+  <taxrate>12.00</taxrate>
+  <posted>20240910144202</posted>
+  <memo>NA</memo>
+<line>
+  <sku>000024</sku>
+  <qty>1.00</qty>
+  <unitprice>100.00</unitprice>
+  <disc>0.00</disc>
+  <senior>0.00</senior>
+  <pwd>0.00</pwd>
+  <diplomat>0.00</diplomat>
+  <taxtype>0</taxtype>
+  <tax>10.71</tax>
+  <memo>NA</memo>
+  <total>100.00</total>
+</line>
+</trx>
+</sales>
+<master>
+  <product>
+    <sku>000003</sku>
+    <name>Yamada 6017 C3</name>
+    <inventory>1</inventory>
+    <price>275</price>
+    <category>EYEGLASSES</category>
+  </product>
+  <product>
+    <sku>000004</sku>
+    <name>Yamada 6017 C1</name>
+    <inventory>1</inventory>
+    <price>1219</price>
+    <category>EYEGLASSES</category>
+  </product>
+  <product>
+    <sku>000022</sku>
+    <name>3-Way Screw Driver</name>
+    <inventory>1</inventory>
+    <price>100</price>
+    <category>ACCESSORIES</category>
+  </product>
+  <product>
+    <sku>000023</sku>
+    <name>Stick-On Pads</name>
+    <inventory>1</inventory>
+    <price>100</price>
+    <category>ACCESSORIES</category>
+  </product>
+  <product>
+    <sku>000024</sku>
+    <name>Contact Lens Case</name>
+    <inventory>1</inventory>
+    <price>100</price>
+    <category>ACCESSORIES</category>
+  </product>
+  <product>
+    <sku>000025</sku>
+    <name>Sarabia Case</name>
+    <inventory>1</inventory>
+    <price>100</price>
+    <category>ACCESSORIES</category>
+  </product>
+</master>
+</root>
