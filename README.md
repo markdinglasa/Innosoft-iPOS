@@ -4,6 +4,7 @@
 * Date updated Tuesday, July 16, 2024
 * Date updated Saturday, August 31, 2024
 * Date updated Thursday, September 05, 2024
+* Date updated Wednesday, September 11, 2024
 
 ## NOTE
 * This programs is the latest version of innosoft pos, iPOS-MYK
@@ -26,3 +27,10 @@
 - [2024/08/31] Updated license & expiry validator.
 - [2024/08/31] Updated footer icon.
 - [2024/09/05] Fix and updated RLC Sending
+- [2024/09/10] Added new Field on TrnSales `IsReturn` as an Indicator for Return/Refund, in which IsReturn = 1 then it is Return if IsReturn = 2 Refund
+- [2024/09/10] Fix Refund, no duplication of Refund
+- [2024/09/10] Fix (Z-Reading, X-Reading, Z-Reading by OR Number, X-Reading By OR Number) in regards of Refund
+- [2024/09/10] Fix Sales reports regarding Refund
+- [2024/09/10] Fix Collection reports regarding Refund
+- [2024/09/11] Updated RLC Sending, based on Correction of RLC
+- [2024/09/11] Remove Declarate in (Z-Reading, X-Reading, Z-Reading by OR Number, X-Reading By OR Number)
