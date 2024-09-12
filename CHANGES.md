@@ -101,6 +101,7 @@
 
         Collection Daily Summary Report
 ```
+
 - [2024/09/11] Updated RLC Sending
 ```
     based on Correction of RLC, corrected 
@@ -110,7 +111,7 @@
         RegularDiscountAmount computation - it should not include SeniorDiscount and PWDDiscount,
         OtherNegativeAdjusment is seniorDiscount but regarded as 0,
         counting of senior discount as NumberOtherNegativeAdjustments
-        
+
 
 
 ```
