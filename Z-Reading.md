@@ -135,7 +135,7 @@
 
     FORMULA:
         // assuming the grosSsales is already deduct with the refundAmount
-        VAT = (((grossSales ) - (seniorDisocunt + pwdDiscount + nonVatSales)) / 1.12 ) * 0.12
+        VAT = (((grossSales ) - (seniorDisocunt + pwdDiscount + nonVatSales + saleGC )) / 1.12 ) * 0.12
 ```
 
 - [CancelledTx] 

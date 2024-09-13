@@ -1,0 +1,479 @@
+Private Sub MCIAA_SendXML()
+    Dim FileName As String
+    Dim readingDate As String
+    
+    If Not IsNull(Me.MCIAA_FileNameMem) Then
+        FileName = CurrentProject.Path & "\" & Me.MCIAA_FileNameMem
+        readingDate = Format(Me.MCIAA_DateMem, "YYYYMMDD")
+        
+        Open FileName For Output As #1
+        
+        Print #1, "<root>"
+        
+        Print #1, "<id>"
+        Print #1, "  <tenantid>" & Me.MCIAA_CompanyIdMem & "</tenantid>"
+        Print #1, "  <key>" & Me.MCIAA_CompanyNameMem & "</key>"
+        Print #1, "  <tmid>0" & Me.MCIAA_TerminalIdMem.Column(1) & "</tmid>"
+        Print #1, "  <doc>SALES_EOD</doc>"
+        Print #1, "</id>"
+        
+        Print #1, "<sales>"
+
+        Dim rsSummary As Recordset
+        Dim rsPreviousSummary As Recordset
+        
+        CreateMCIAADataSource "EOD", 0, Me.MCIAA_DateMem, Me.MCIAA_TerminalIdMem
+        
+        DoCmd.SetWarnings False
+        
+        'Sales Header
+        DoCmd.RunSQL "DELETE FROM TmpMCIAA_Sales"
+        DoCmd.OpenQuery "MCIAAQ102 (Current Sales)"
+        'Sales Line
+        DoCmd.RunSQL "DELETE FROM TmpMCIAA_SalesItem"
+        DoCmd.OpenQuery "MCIAAQ104 (Current Sales Item)"
+        'Sales Summary
+        DoCmd.RunSQL "DELETE FROM TmpMCIAA_Summary WHERE SalesDate='" & readingDate & "'"
+        DoCmd.OpenQuery "MCIAAQ106 (Current Sales Summary)"
+        
+        DoCmd.SetWarnings True
+        
+        'Sales Summary
+        Set rsSummary = CurrentDb.OpenRecordset("SELECT * FROM TmpMCIAA_Summary WHERE SalesDate='" & readingDate & "'", dbOpenDynaset, dbSeeChanges)
+        Set rsPreviousSummary = CurrentDb.OpenRecordset("SELECT * FROM TmpMCIAA_Summary WHERE SalesDate<'" & readingDate & "' ORDER BY SalesDate DESC", dbOpenDynaset, dbSeeChanges)
+        If rsSummary.RecordCount > 0 Then
+            rsSummary.MoveFirst
+            
+            rsSummary.Edit
+            If rsPreviousSummary.RecordCount > 0 Then
+                rsPreviousSummary.MoveFirst
+                rsSummary!Zcounter = rsPreviousSummary!Zcounter + 1
+                rsSummary!previousnrgt = rsPreviousSummary!nrgt
+                rsSummary!nrgt = rsSummary!nrgt + rsPreviousSummary!nrgt
+                rsSummary!previoustax = rsPreviousSummary!newtax
+                rsSummary!newtax = rsSummary!newtax + rsPreviousSummary!newtax
+                rsSummary!previoustaxsale = rsPreviousSummary!newtaxsale
+                rsSummary!newtaxsale = rsSummary!newtaxsale + rsPreviousSummary!newtaxsale
+                rsSummary!prevousnotaxsale = rsPreviousSummary!newnotaxsale
+                rsSummary!newnotaxsale = rsSummary!newnotaxsale + rsPreviousSummary!newnotaxsale
+            Else
+                rsSummary!Zcounter = 1
+                rsSummary!previousnrgt = 0
+                rsSummary!previoustax = 0
+                rsSummary!prevousnotaxsale = 0
+            End If
+            rsPreviousSummary.Close
+            Set rsPreviousSummary = Nothing
+            rsSummary.Update
+            
+            Print #1, "  <date>" & rsSummary!SalesDate & "</date>"
+            Print #1, "  <zcounter>" & rsSummary!Zcounter & "</zcounter>"
+            Print #1, "  <previousnrgt>" & Format(rsSummary!previousnrgt, "#0.00") & "</previousnrgt>"
+            Print #1, "  <nrgt>" & Format(rsSummary!nrgt, "#0.00") & "</nrgt>"
+            Print #1, "  <previoustax>" & Format(rsSummary!previoustax, "#0.00") & "</previoustax>"
+            Print #1, "  <newtax>" & Format(rsSummary!newtax, "#0.00") & "</newtax>"
+            Print #1, "  <previoustaxsale>" & Format(rsSummary!previoustaxsale, "#0.00") & "</previoustaxsale>"
+            Print #1, "  <newtaxsale>" & Format(rsSummary!newtaxsale, "#0.00") & "</newtaxsale>"
+            Print #1, "  <previousnotaxsale>" & Format(rsSummary!prevousnotaxsale, "#0.00") & "</previousnotaxsale>"
+            Print #1, "  <newnotaxsale>" & Format(rsSummary!newnotaxsale, "#0.00") & "</newnotaxsale>"
+            Print #1, "  <opentime>" & rsSummary!opentime & "</opentime>"
+            Print #1, "  <closetime>" & rsSummary!closetime & "</closetime>"
+            Print #1, "  <gross>" & Format(rsSummary!gross, "#0.00") & "</gross>"
+            Print #1, "  <vat>" & Format(rsSummary!vat, "#0.00") & "</vat>"
+            Print #1, "  <localtax>" & Format(rsSummary!localtax, "#0.00") & "</localtax>"
+            Print #1, "  <amusement>" & Format(rsSummary!amusement, "#0.00") & "</amusement>"
+            Print #1, "  <taxsale>" & Format(rsSummary!taxsale, "#0.00") & "</taxsale>"
+            Print #1, "  <notaxsale>" & Format(rsSummary!notaxsale, "#0.00") & "</notaxsale>"
+            Print #1, "  <zerosale>" & Format(rsSummary!zerosale, "#0.00") & "</zerosale>"
+            Print #1, "  <void>" & Format(rsSummary!void, "#0.00") & "</void>"
+            Print #1, "  <voidcnt>" & rsSummary!voidcnt & "</voidcnt>"
+            Print #1, "  <disc>" & Format(rsSummary!disc, "#0.00") & "</disc>"
+            Print #1, "  <disccnt>" & rsSummary!disccnt & "</disccnt>"
+            Print #1, "  <refund>" & Format(rsSummary!refund, "#0.00") & "</refund>"
+            Print #1, "  <refundcnt>" & rsSummary!refundcnt & "</refundcnt>"
+            Print #1, "  <senior>" & Format(rsSummary!senior, "#0.00") & "</senior>"
+            Print #1, "  <seniorcnt>" & rsSummary!seniorcnt & "</seniorcnt>"
+            Print #1, "  <pwd>" & Format(rsSummary!pwd, "#0.00") & "</pwd>"
+            Print #1, "  <pwdcnt>" & rsSummary!pwdcnt & "</pwdcnt>"
+            Print #1, "  <diplomat>" & Format(rsSummary!diplomat, "#0.00") & "</diplomat>"
+            Print #1, "  <diplomatcnt>" & rsSummary!diplomatcnt & "</diplomatcnt>"
+            Print #1, "  <service>" & Format(rsSummary!service, "#0.00") & "</service>"
+            Print #1, "  <servicecnt>" & rsSummary!servicecnt & "</servicecnt>"
+            Print #1, "  <receiptstart>" & Replace(rsSummary!receiptstart, "-", "") & "</receiptstart>"
+            Print #1, "  <receiptend>" & Replace(rsSummary!receiptend, "-", "") & "</receiptend>"
+            Print #1, "  <trxcnt>" & rsSummary!trxcnt & "</trxcnt>"
+            Print #1, "  <cash>" & Format(rsSummary!cash, "#0.00") & "</cash>"
+            Print #1, "  <cashcnt>" & rsSummary!cashcnt & "</cashcnt>"
+            Print #1, "  <credit>" & Format(rsSummary!credit, "#0.00") & "</credit>"
+            Print #1, "  <creditcnt>" & rsSummary!creditcnt & "</creditcnt>"
+            Print #1, "  <charge>" & Format(rsSummary!charge, "#0.00") & "</charge>"
+            Print #1, "  <chargecnt>" & rsSummary!chargecnt & "</chargecnt>"
+            Print #1, "  <giftcheck>" & Format(rsSummary!giftcheck, "#0.00") & "</giftcheck>"
+            Print #1, "  <giftcheckcnt>" & rsSummary!giftcheckcnt & "</giftcheckcnt>"
+            Print #1, "  <othertender>" & Format(rsSummary!othertender, "#0.00") & "</othertender>"
+            Print #1, "  <othertendercnt>" & rsSummary!othertendercnt & "</othertendercnt>"
+        End If
+        rsSummary.Close
+        Set rsSummary = Nothing
+        
+        ' Sales Transaction
+        Dim rsSales As Recordset
+
+        Set rsSales = CurrentDb.OpenRecordset("TmpMCIAA_Sales", dbOpenDynaset, dbSeeChanges)
+        Set rsSalesItem = CurrentDb.OpenRecordset("TmpMCIAA_SalesItem", dbOpenDynaset, dbSeeChanges)
+        If rsSales.RecordCount > 0 Then
+            rsSales.MoveFirst
+            Do Until rsSales.EOF
+                Print #1, "<trx>"
+                Print #1, "  <receiptno>" & Replace(rsSales!receiptNo, "-", "") & "</receiptno>"
+                Print #1, "  <void>" & Format(rsSales!void, "#0.00") & "</void>"
+                Print #1, "  <cash>" & Format(rsSales!cash, "#0.00") & "</cash>"
+                Print #1, "  <credit>" & Format(rsSales!credit, "#0.00") & "</credit>"
+                Print #1, "  <charge>" & Format(rsSales!charge, "#0.00") & "</charge>"
+                Print #1, "  <giftcheck>" & Format(rsSales!giftcheck, "#0.00") & "</giftcheck>"
+                Print #1, "  <othertender>" & Format(rsSales!othertender, "#0.00") & "</othertender>"
+                Print #1, "  <linedisc>" & Format(rsSales!linedisc, "#0.00") & "</linedisc>"
+                Print #1, "  <linesenior>" & Format(rsSales!linesenior, "#0.00") & "</linesenior>"
+                Print #1, "  <evat>" & Format(rsSales!evat, "#0.00") & "</evat>"
+                Print #1, "  <linepwd>" & Format(rsSales!linepwd, "#0.00") & "</linepwd>"
+                Print #1, "  <linediplomat>" & Format(rsSales!linediplomat, "#0.00") & "</linediplomat>"
+                Print #1, "  <subtotal>" & Format(rsSales!subtotal, "#0.00") & "</subtotal>"
+                Print #1, "  <disc>0.00</disc>"
+                Print #1, "  <senior>0.00</senior>"
+                Print #1, "  <pwd>0.00</pwd>"
+                Print #1, "  <diplomat>0.00</diplomat>"
+                Print #1, "  <vat>" & Format(rsSales!vat, "#0.00") & "</vat>"
+                Print #1, "  <exvat>" & Format(rsSales!exvat, "#0.00") & "</exvat>"
+                Print #1, "  <incvat>" & Format(rsSales!incvat, "#0.00") & "</incvat>"
+                Print #1, "  <localtax>" & Format(rsSales!localtax, "#0.00") & "</localtax>"
+                Print #1, "  <amusement>" & Format(rsSales!amusement, "#0.00") & "</amusement>"
+                Print #1, "  <service>" & Format(rsSales!service, "#0.00") & "</service>"
+                Print #1, "  <taxsale>" & Format(rsSales!taxsale, "#0.00") & "</taxsale>"
+                Print #1, "  <notaxsale>" & Format(rsSales!notaxsale, "#0.00") & "</notaxsale>"
+                Print #1, "  <taxexsale>" & Format(rsSales!taxexsale, "#0.00") & "</taxexsale>"
+                Print #1, "  <taxincsale>" & Format(rsSales!taxincsale, "#0.00") & "</taxincsale>"
+                Print #1, "  <zerosale>" & Format(rsSales!zerosale, "#0.00") & "</zerosale>"
+                Print #1, "  <customercount>" & rsSales!customercount & "</customercount>"
+                Print #1, "  <gross>" & Format(rsSales!gross, "#0.00") & "</gross>"
+                Print #1, "  <refund>" & Format(rsSales!refund, "#0.00") & "</refund>"
+                Print #1, "  <taxrate>" & Format(rsSales!TaxRate, "#0.00") & "</taxrate>"
+                Print #1, "  <posted>" & rsSales!posted & "</posted>"
+                Print #1, "  <memo>" & rsSales!memo & "</memo>"
+                
+                If rsSalesItem.RecordCount > 0 Then
+                    rsSalesItem.MoveFirst
+                    Do Until rsSalesItem.EOF
+                        If rsSales!receiptNo = rsSalesItem!receiptNo Then
+                            Print #1, "<line>"
+                            Print #1, "  <sku>" & rsSalesItem!sku & "</sku>"
+                            Print #1, "  <qty>" & Format(rsSalesItem!qty, "#0.00") & "</qty>"
+                            Print #1, "  <unitprice>" & Format(rsSalesItem!unitprice, "#0.00") & "</unitprice>"
+                            Print #1, "  <disc>" & Format(rsSalesItem!DiscountAmount, "#0.00") & "</disc>"
+                            Print #1, "  <senior>" & Format(rsSalesItem!senior, "#0.00") & "</senior>"
+                            Print #1, "  <pwd>" & Format(rsSalesItem!pwd, "#0.00") & "</pwd>"
+                            Print #1, "  <diplomat>" & Format(rsSalesItem!diplomat, "#0.00") & "</diplomat>"
+                            Select Case rsSalesItem!TaxType
+                                Case "VAT":
+                                    Print #1, "  <taxtype>0</taxtype>"
+                                Case "VAT-EXCLUSIVE":
+                                    Print #1, "  <taxtype>1</taxtype>"
+                                Case "NON-VAT":
+                                    Print #1, "  <taxtype>2</taxtype>"
+                                Case "VAT EXEMPT"
+                                    Print #1, "  <taxtype>3</taxtype>"
+                                Case Else
+                                    Print #1, "  <taxtype>0</taxtype>"
+                            End Select
+                            Print #1, "  <tax>" & Format(rsSalesItem!Tax, "#0.00") & "</tax>"
+                            Print #1, "  <memo>" & rsSalesItem!memo & "</memo>"
+                            Print #1, "  <total>" & Format(rsSalesItem!total, "#0.00") & "</total>"
+                            Print #1, "</line>"
+                        End If
+                        rsSalesItem.MoveNext
+                    Loop
+                End If
+                
+                Print #1, "</trx>"
+                rsSales.MoveNext
+            Loop
+        End If
+        rsSales.Close
+        rsSalesItem.Close
+        Set rsSales = Nothing
+        Set rsSalesItem = Nothing
+        
+        Print #1, "</sales>"
+        
+        'Product List
+        Print #1, "<master>"
+        Dim rsProduct As Recordset
+        DoCmd.SetWarnings False
+        DoCmd.RunSQL "DELETE FROM TmpMCIAA_Products"
+        DoCmd.OpenQuery "MCIAAQ120 (Master)"
+        DoCmd.SetWarnings True
+        Set rsProduct = CurrentDb.OpenRecordset("TmpMCIAA_Products", dbOpenDynaset, dbSeeChanges)
+        If rsProduct.RecordCount > 0 Then
+            rsProduct.MoveFirst
+            Do Until rsProduct.EOF
+                Print #1, "  <product>"
+                Print #1, "    <sku>" & rsProduct!sku & "</sku>"
+                Print #1, "    <name>" & rsProduct!productName & "</name>"
+                Print #1, "    <inventory>" & rsProduct!inventory & "</inventory>"
+                Print #1, "    <price>" & rsProduct!Price & "</price>"
+                Print #1, "    <category>" & Nz(rsProduct!Category, "NA") & "</category>"
+                Print #1, "  </product>"
+                rsProduct.MoveNext
+            Loop
+        End If
+        rsProduct.Close
+        Set rsProduct = Nothing
+        Print #1, "</master>"
+  
+        Print #1, "</root>"
+        
+        Close #1
+    End If
+End Sub
+
+
+
+//MYCHANGES
+
+Private Sub MCIAA_SendXML()
+    Dim FileName As String
+    Dim readingDate As String
+    
+    If Not IsNull(Me.MCIAA_FileNameMem) Then
+        FileName = CurrentProject.Path & "\" & Me.MCIAA_FileNameMem
+        readingDate = Format(Me.MCIAA_DateMem, "YYYYMMDD")
+        
+        Open FileName For Output As #1
+        
+        Print #1, "<root>"
+        
+        Print #1, "<id>"
+        Print #1, "  <tenantid>" & Me.MCIAA_CompanyIdMem & "</tenantid>"
+        Print #1, "  <key>" & Me.MCIAA_CompanyNameMem & "</key>"
+        Print #1, "  <tmid>0" & Me.MCIAA_TerminalIdMem.Column(1) & "</tmid>"
+        Print #1, "  <doc>SALES_EOD</doc>"
+        Print #1, "</id>"
+        
+        Print #1, "<sales>"
+
+        Dim rsSummary As Recordset
+        Dim rsPreviousSummary As Recordset
+        
+        'CreateMCIAADataSource "EOD", 0, Me.MCIAA_DateMem, Me.MCIAA_TerminalIdMem
+        
+        DoCmd.SetWarnings False
+        
+        'Sales Header
+        DoCmd.RunSQL "DELETE FROM TmpPayTypeSales"
+        DoCmd.RunSQL "DELETE FROM TmpMCIAA_Sales"
+        DoCmd.OpenQuery "PayTypeSales"
+        DoCmd.OpenQuery "MCIAAQ102 (Current Sales)"
+        'Sales Line
+        DoCmd.RunSQL "DELETE * FROM TmpMCIAA_SalesItem"
+        DoCmd.OpenQuery "MCIAAQ104 (Current Sales Item)"
+        'Sales Summary
+        DoCmd.RunSQL "DELETE * FROM TmpMCIAA_Summary WHERE SalesDate='" & readingDate & "'"
+        DoCmd.OpenQuery "MCIAAQ106 (Current Sales Summary)"
+        
+        DoCmd.SetWarnings True
+        
+        'Sales Summary
+        Set rsSummary = CurrentDb.OpenRecordset("SELECT * FROM TmpMCIAA_Summary WHERE SalesDate='" & readingDate & "'", dbOpenDynaset, dbSeeChanges)
+        Set rsPreviousSummary = CurrentDb.OpenRecordset("SELECT * FROM TmpMCIAA_Summary WHERE SalesDate<'" & readingDate & "' ORDER BY SalesDate DESC", dbOpenDynaset, dbSeeChanges)
+        If rsSummary.RecordCount > 0 Then
+            rsSummary.MoveFirst
+            
+            rsSummary.Edit
+            If rsPreviousSummary.RecordCount > 0 Then
+                rsPreviousSummary.MoveFirst
+                rsSummary!Zcounter = rsPreviousSummary!Zcounter + 1
+                rsSummary!previousnrgt = rsPreviousSummary!nrgt
+                rsSummary!nrgt = rsSummary!nrgt + rsPreviousSummary!nrgt
+                rsSummary!previoustax = rsPreviousSummary!newtax
+                rsSummary!newtax = rsSummary!newtax + rsPreviousSummary!newtax
+                rsSummary!previoustaxsale = rsPreviousSummary!newtaxsale
+                rsSummary!newtaxsale = rsSummary!newtaxsale + rsPreviousSummary!newtaxsale
+                rsSummary!prevousnotaxsale = rsPreviousSummary!newnotaxsale
+                rsSummary!newnotaxsale = rsSummary!newnotaxsale + rsPreviousSummary!newnotaxsale
+            Else
+                rsSummary!Zcounter = 1
+                rsSummary!previousnrgt = 0
+                rsSummary!previoustax = 0
+                rsSummary!prevousnotaxsale = 0
+            End If
+            rsPreviousSummary.Close
+            Set rsPreviousSummary = Nothing
+            rsSummary.Update
+            
+            Print #1, "  <date>" & rsSummary!SalesDate & "</date>"
+            Print #1, "  <zcounter>" & rsSummary!Zcounter & "</zcounter>"
+            Print #1, "  <previousnrgt>" & Format(rsSummary!previousnrgt, "#0.00") & "</previousnrgt>"
+            Print #1, "  <nrgt>" & Format(rsSummary!nrgt, "#0.00") & "</nrgt>"
+            Print #1, "  <previoustax>" & Format(rsSummary!previoustax, "#0.00") & "</previoustax>"
+            Print #1, "  <newtax>" & Format(rsSummary!newtax, "#0.00") & "</newtax>"
+            Print #1, "  <previoustaxsale>" & Format(rsSummary!previoustaxsale, "#0.00") & "</previoustaxsale>"
+            Print #1, "  <newtaxsale>" & Format(rsSummary!newtaxsale, "#0.00") & "</newtaxsale>"
+            Print #1, "  <previousnotaxsale>" & Format(rsSummary!prevousnotaxsale, "#0.00") & "</previousnotaxsale>"
+            Print #1, "  <newnotaxsale>" & Format(rsSummary!newnotaxsale, "#0.00") & "</newnotaxsale>"
+            Print #1, "  <opentime>" & rsSummary!opentime & "</opentime>"
+            Print #1, "  <closetime>" & rsSummary!closetime & "</closetime>"
+            Print #1, "  <gross>" & Format(rsSummary!gross, "#0.00") & "</gross>"
+            Print #1, "  <vat>" & Format(rsSummary!vat, "#0.00") & "</vat>"
+            Print #1, "  <localtax>" & Format(rsSummary!localtax, "#0.00") & "</localtax>"
+            Print #1, "  <amusement>" & Format(rsSummary!amusement, "#0.00") & "</amusement>"
+            Print #1, "  <taxsale>" & Format(rsSummary!taxsale, "#0.00") & "</taxsale>"
+            Print #1, "  <notaxsale>" & Format(rsSummary!notaxsale, "#0.00") & "</notaxsale>"
+            Print #1, "  <zerosale>" & Format(rsSummary!zerosale, "#0.00") & "</zerosale>"
+            Print #1, "  <void>" & Format(rsSummary!void, "#0.00") & "</void>"
+            Print #1, "  <voidcnt>" & rsSummary!voidcnt & "</voidcnt>"
+            Print #1, "  <disc>" & Format(rsSummary!disc, "#0.00") & "</disc>"
+            Print #1, "  <disccnt>" & rsSummary!disccnt & "</disccnt>"
+            Print #1, "  <refund>" & Format(rsSummary!refund, "#0.00") & "</refund>"
+            Print #1, "  <refundcnt>" & rsSummary!refundcnt & "</refundcnt>"
+            Print #1, "  <senior>" & Format(rsSummary!senior, "#0.00") & "</senior>"
+            Print #1, "  <seniorcnt>" & rsSummary!seniorcnt & "</seniorcnt>"
+            Print #1, "  <pwd>" & Format(rsSummary!pwd, "#0.00") & "</pwd>"
+            Print #1, "  <pwdcnt>" & rsSummary!pwdcnt & "</pwdcnt>"
+            Print #1, "  <diplomat>" & Format(rsSummary!diplomat, "#0.00") & "</diplomat>"
+            Print #1, "  <diplomatcnt>" & rsSummary!diplomatcnt & "</diplomatcnt>"
+            Print #1, "  <service>" & Format(rsSummary!service, "#0.00") & "</service>"
+            Print #1, "  <servicecnt>" & rsSummary!servicecnt & "</servicecnt>"
+            Print #1, "  <receiptstart>" & Replace(rsSummary!receiptstart, "-", "") & "</receiptstart>"
+            Print #1, "  <receiptend>" & Replace(rsSummary!receiptend, "-", "") & "</receiptend>"
+            Print #1, "  <trxcnt>" & rsSummary!trxcnt & "</trxcnt>"
+            Print #1, "  <cash>" & Format(rsSummary!cash, "#0.00") & "</cash>"
+            Print #1, "  <cashcnt>" & rsSummary!cashcnt & "</cashcnt>"
+            Print #1, "  <credit>" & Format(rsSummary!credit, "#0.00") & "</credit>"
+            Print #1, "  <creditcnt>" & rsSummary!creditcnt & "</creditcnt>"
+            Print #1, "  <charge>" & Format(rsSummary!charge, "#0.00") & "</charge>"
+            Print #1, "  <chargecnt>" & rsSummary!chargecnt & "</chargecnt>"
+            Print #1, "  <giftcheck>" & Format(rsSummary!giftcheck, "#0.00") & "</giftcheck>"
+            Print #1, "  <giftcheckcnt>" & rsSummary!giftcheckcnt & "</giftcheckcnt>"
+            Print #1, "  <othertender>" & Format(rsSummary!othertender, "#0.00") & "</othertender>"
+            Print #1, "  <othertendercnt>" & rsSummary!othertendercnt & "</othertendercnt>"
+        End If
+        rsSummary.Close
+        Set rsSummary = Nothing
+        
+        ' Sales Transaction
+        Dim rsSales As Recordset
+
+        Set rsSales = CurrentDb.OpenRecordset("TmpMCIAA_Sales", dbOpenDynaset, dbSeeChanges)
+        Set rsSalesItem = CurrentDb.OpenRecordset("TmpMCIAA_SalesItem", dbOpenDynaset, dbSeeChanges)
+        If rsSales.RecordCount > 0 Then
+            rsSales.MoveFirst
+            Do Until rsSales.EOF
+                Print #1, "<trx>"
+                Print #1, "  <receiptno>" & Replace(rsSales!receiptNo, "-", "") & "</receiptno>"
+                Print #1, "  <void>" & Format(rsSales!void, "#0.00") & "</void>"
+                Print #1, "  <cash>" & Format(rsSales!cash, "#0.00") & "</cash>"
+                Print #1, "  <credit>" & Format(rsSales!credit, "#0.00") & "</credit>"
+                Print #1, "  <charge>" & Format(rsSales!charge, "#0.00") & "</charge>"
+                Print #1, "  <giftcheck>" & Format(rsSales!giftcheck, "#0.00") & "</giftcheck>"
+                Print #1, "  <othertender>" & Format(rsSales!othertender, "#0.00") & "</othertender>"
+                Print #1, "  <linedisc>" & Format(rsSales!linedisc, "#0.00") & "</linedisc>"
+                Print #1, "  <linesenior>" & Format(rsSales!linesenior, "#0.00") & "</linesenior>"
+                Print #1, "  <evat>" & Format(rsSales!evat, "#0.00") & "</evat>"
+                Print #1, "  <linepwd>" & Format(rsSales!linepwd, "#0.00") & "</linepwd>"
+                Print #1, "  <linediplomat>" & Format(rsSales!linediplomat, "#0.00") & "</linediplomat>"
+                Print #1, "  <subtotal>" & Format(rsSales!subtotal, "#0.00") & "</subtotal>"
+                Print #1, "  <disc>0.00</disc>"
+                Print #1, "  <senior>0.00</senior>"
+                Print #1, "  <pwd>0.00</pwd>"
+                Print #1, "  <diplomat>0.00</diplomat>"
+                Print #1, "  <vat>" & Format(rsSales!vat, "#0.00") & "</vat>"
+                Print #1, "  <exvat>" & Format(rsSales!exvat, "#0.00") & "</exvat>"
+                Print #1, "  <incvat>" & Format(rsSales!incvat, "#0.00") & "</incvat>"
+                Print #1, "  <localtax>" & Format(rsSales!localtax, "#0.00") & "</localtax>"
+                Print #1, "  <amusement>" & Format(rsSales!amusement, "#0.00") & "</amusement>"
+                Print #1, "  <service>" & Format(rsSales!service, "#0.00") & "</service>"
+                Print #1, "  <taxsale>" & Format(rsSales!taxsale, "#0.00") & "</taxsale>"
+                Print #1, "  <notaxsale>" & Format(rsSales!notaxsale, "#0.00") & "</notaxsale>"
+                Print #1, "  <taxexsale>" & Format(rsSales!taxexsale, "#0.00") & "</taxexsale>"
+                Print #1, "  <taxincsale>" & Format(rsSales!taxincsale, "#0.00") & "</taxincsale>"
+                Print #1, "  <zerosale>" & Format(rsSales!zerosale, "#0.00") & "</zerosale>"
+                Print #1, "  <customercount>" & rsSales!customercount & "</customercount>"
+                Print #1, "  <gross>" & Format(rsSales!gross, "#0.00") & "</gross>"
+                Print #1, "  <refund>" & Format(rsSales!refund, "#0.00") & "</refund>"
+                Print #1, "  <taxrate>" & Format(rsSales!TaxRate, "#0.00") & "</taxrate>"
+                Print #1, "  <posted>" & rsSales!posted & "</posted>"
+                Print #1, "  <memo>" & rsSales!memo & "</memo>"
+                
+                If rsSalesItem.RecordCount > 0 Then
+                    rsSalesItem.MoveFirst
+                    Do Until rsSalesItem.EOF
+                        If rsSales!receiptNo = rsSalesItem!receiptNo Then
+                            Print #1, "<line>"
+                            Print #1, "  <sku>" & rsSalesItem!sku & "</sku>"
+                            Print #1, "  <qty>" & Format(rsSalesItem!qty, "#0.00") & "</qty>"
+                            Print #1, "  <unitprice>" & Format(rsSalesItem!unitprice, "#0.00") & "</unitprice>"
+                            Print #1, "  <disc>" & Format(rsSalesItem!DiscountAmount, "#0.00") & "</disc>"
+                            Print #1, "  <senior>" & Format(rsSalesItem!senior, "#0.00") & "</senior>"
+                            Print #1, "  <pwd>" & Format(rsSalesItem!pwd, "#0.00") & "</pwd>"
+                            Print #1, "  <diplomat>" & Format(rsSalesItem!diplomat, "#0.00") & "</diplomat>"
+                            Select Case rsSalesItem!TaxType
+                                Case "VAT":
+                                    Print #1, "  <taxtype>0</taxtype>"
+                                Case "VAT-EXCLUSIVE":
+                                    Print #1, "  <taxtype>1</taxtype>"
+                                Case "NON-VAT":
+                                    Print #1, "  <taxtype>2</taxtype>"
+                                Case "VAT EXEMPT"
+                                    Print #1, "  <taxtype>3</taxtype>"
+                                Case Else
+                                    Print #1, "  <taxtype>0</taxtype>"
+                            End Select
+                            Print #1, "  <tax>" & Format(rsSalesItem!Tax, "#0.00") & "</tax>"
+                            Print #1, "  <memo>" & rsSalesItem!memo & "</memo>"
+                            Print #1, "  <total>" & Format(rsSalesItem!total, "#0.00") & "</total>"
+                            Print #1, "</line>"
+                        End If
+                        rsSalesItem.MoveNext
+                    Loop
+                End If
+                
+                Print #1, "</trx>"
+                rsSales.MoveNext
+            Loop
+        End If
+        rsSales.Close
+        rsSalesItem.Close
+        Set rsSales = Nothing
+        Set rsSalesItem = Nothing
+        
+        Print #1, "</sales>"
+        
+        'Product List
+        Print #1, "<master>"
+        Dim rsProduct As Recordset
+        DoCmd.SetWarnings False
+        DoCmd.RunSQL "DELETE FROM TmpMCIAA_Products"
+        DoCmd.OpenQuery "MCIAAQ120 (Master)"
+        DoCmd.SetWarnings True
+        Set rsProduct = CurrentDb.OpenRecordset("TmpMCIAA_Products", dbOpenDynaset, dbSeeChanges)
+        If rsProduct.RecordCount > 0 Then
+            rsProduct.MoveFirst
+            Do Until rsProduct.EOF
+                Print #1, "  <product>"
+                Print #1, "    <sku>" & rsProduct!sku & "</sku>"
+                Print #1, "    <name>" & rsProduct!productName & "</name>"
+                Print #1, "    <inventory>" & rsProduct!inventory & "</inventory>"
+                Print #1, "    <price>" & rsProduct!Price & "</price>"
+                Print #1, "    <category>" & Nz(rsProduct!Category, "NA") & "</category>"
+                Print #1, "  </product>"
+                rsProduct.MoveNext
+            Loop
+        End If
+        rsProduct.Close
+        Set rsProduct = Nothing
+        Print #1, "</master>"
+  
+        Print #1, "</root>"
+        
+        Close #1
+    End If
+End Sub

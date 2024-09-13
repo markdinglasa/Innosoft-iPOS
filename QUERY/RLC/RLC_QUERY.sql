@@ -30,6 +30,7 @@ INSERT INTO TmpRLC (
     RePrintedAmount, 
     RePrintedTransaction
 )
+
 SELECT 
 DFirst("RLC_TenantId","SysCurrent") AS [TenantId], 
 "00000000000000" & Right([MstTerminal].[Terminal],2) AS [TerminalNumber], 
@@ -61,18 +62,15 @@ MAX(IIf(([TrnCollection].[IsCancelled] = 0 OR [TrnCollection].[IsCancelled] IS N
 Nz(DCount("Id","trncollection","[CollectionDate] < " & [Forms]![SysSettings]![RLC_DateMem])+1) AS CurrentEOD, 
 MAX(IIF(
     [TrnCollection].[IsCancelled] = 0 OR [TrnCollection].[IsCancelled] IS NULL, 
-    FORMAT(Nz([RLC_GROSSSALES].[GrossSales], 0), '0.00000'), 
+    FORMAT(Nz([RLC_GROSSSALES].[NetSales], 0), '0.00000'), 
     '0.00000'
 )) AS [CurrentEODAmount],
 FORMAT([TrnSales].[SalesDate], 'MM/dd/yyyy') AS [TransactionDate], 
 0 AS [NoveltyItemAmount], 
 0 AS [MiscItemAmount],
 IIF([MstTax].[Tax] = 'LOCAL TAX', FORMAT(([TotalTax].[TotalTaxAmount]), '0.00000'), '0.00000') AS [LocalTax], 
-
 IIF(([TrnCollection].[IsCancelled] = 0 OR [TrnCollection].[IsCancelled] IS NULL) AND ([TrnCollection].[IsReturn]<>2),Nz([TmpPayTypeSales].[TotalCreditCardSales],0),0)  AS [CreditSalesAmount],
-
 0 AS [CreditTaxAmount],
-
 IIF(([TrnCollection].[IsCancelled] = 0 OR [TrnCollection].[IsCancelled] IS NULL), FORMAT(([NonVATSales].[NonVATSalesAmount] ), '0.00000'),'0.00000') AS [NonVATSalesAmount],
 0 AS [PharmaItemSalesAmount], 
 0 AS [NonPharmaItemSalesAmount], 
