@@ -6,6 +6,7 @@ GROUP BY Format([CollectionDate],"yyyymmdd"), 1, 0, 0, 0, 0, 0, 0, Format(Now(),
 
 INSERT INTO TmpMCIAA_Summary ( salesDate, zcounter, previousnrgt, nrgt, previoustax, newtax, previoustaxsale, newtaxsale, prevousnotaxsale, newnotaxsale, opentime, closetime, gross, vat, localtax, amusement, taxsale, notaxsale, zerosale, void, voidcnt, disc, disccnt, refund, refundcnt, senior, seniorcnt, pwd, pwdcnt, diplomat, diplomatcnt, service, servicecnt, receiptstart, receiptend, trxcnt, cash, cashcnt, credit, creditcnt, charge, chargecnt, giftcheck, giftcheckcnt, othertender, othertendercnt )
 
+
 SELECT 
 Format([CollectionDate],"yyyymmdd") AS salesDate, 1 AS zcounter, 
 0 AS previousnrgt, 

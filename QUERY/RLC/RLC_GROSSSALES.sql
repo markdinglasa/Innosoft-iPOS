@@ -18,8 +18,4 @@ GROUP BY
     TmpCollectionZReading.IsLocked, 
     TmpCollectionZReading.PreparedBy,
     TmpCollectionZReading.IsCancelled
-HAVING 
-(((TmpCollectionZReading.TerminalId)=Forms!RepPOS!TerminalId) 
-And ((TmpCollectionZReading.CollectionDate)=Forms!RepPOS!DateReading) 
-And ((TmpCollectionZReading.IsLocked)=True) 
-And ((TmpCollectionZReading.IsCancelled)=False));
+HAVING (((TmpCollectionZReading.TerminalId)=Forms!RepPOS!TerminalId) And ((TmpCollectionZReading.CollectionDate)=Forms!RepPOS!DateReading) And ((TmpCollectionZReading.IsLocked)=True) And ((TmpCollectionZReading.IsCancelled)=False));

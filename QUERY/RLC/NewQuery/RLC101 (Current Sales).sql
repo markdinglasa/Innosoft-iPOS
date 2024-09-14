@@ -1,0 +1,38 @@
+
+SELECT 
+DFirst("RLC_TenantId","SysCurrent") AS [TenantId], 
+"00000000000000" & Right([Terminal],2) AS [TerminalNumber], 
+Sum(GrossAmount) AS GrossSalesAmount, 
+Sum(taxamount) AS VAT, 
+Sum(IIf([IsCancelled]=True,[Amount],0)) AS VoidAmount, 
+Sum(IIf([IsCancelled]=True,1,0)) AS VoidTransaction, 
+Sum(IIf([Discount]<>"Senior Citizen Discount" And [Discount]<>"PWD",[discountamount],0)) AS LineDiscountAmount,
+Sum(IIf([Discount]<>"Senior Citizen Discount" And [Discount]<>"PWD" AND (Nz([discountamount],0) > 0),1,0)) AS LineDicountTransaction,
+Sum(TotalRefund) AS [ReturnAmount], 
+Sum(IIF(TotalRefund > 0,1,0)) AS [ReturnTransaction], 
+Sum(IIf([Discount]="Senior Citizen Discount",[discountamount],0)) AS [AdjustmentAmount], 
+Sum(IIf([Discount]="Senior Citizen Discount" AND (Nz([discountamount],0)>0),1,0)) AS [AdjustmentTransaction], 
+Sum(ServiceCharge) AS [ServiceChargeAmount], 
+0 AS [PreviousEOD],
+0 AS [PreviousAmount], 
+Nz(DCount("Id","trncollection","[CollectionDate] < " & [Forms]![SysSettings]![RLC_DateMem])+1) AS [CurrentEOD], 
+0 AS [CurrentEODAmount],
+FORMAT([CollectionDate], 'MM/dd/yyyy') AS [TransactionDate], 
+0 AS [NoveltyItemAmount], 
+0 AS [MiscItemAmount],
+Sum(IIf([Tax]="LOCAL-TAX",[TaxAmount],0)) AS [LocalTax],  
+Sum(IIf([IsCancelled]=True,0,[TotalCreditCard])) AS [CreditSalesAmount], 
+Sum(IIf([IsCancelled]=True,0,(([TotalCreditCard]/1.2)*0.12))) AS [CreditTaxAmount],
+Sum(IIf([taxrate]=0,[amount],0)) AS [NonVATSalesAmount], 
+0 AS [PharmaItemSalesAmount], 
+0 AS [NonPharmaItemSalesAmount], 
+Sum(IIf([Discount]="PWD",[discountamount],0)) AS [DisabilityDiscount], 
+Sum(IIf([IsCancelled]=False  AND ([ItemId] = 4) ,0,[Amount])) AS [GrossSalesAmountNotSubjectToPercentageRent],
+0 AS [RePrintedAmount],
+0 AS [RePrintedTransaction]
+FROM TmpMCIAA_Source
+GROUP BY 
+DFirst("RLC_TenantId","SysCurrent"),
+"00000000000000" & Right([Terminal],2),
+Nz(DCount("Id","trncollection","[CollectionDate] < " & [Forms]![SysSettings]![RLC_DateMem])+1),
+FORMAT([CollectionDate], 'MM/dd/yyyy')

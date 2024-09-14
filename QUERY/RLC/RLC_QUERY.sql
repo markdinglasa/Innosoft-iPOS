@@ -48,7 +48,9 @@ IIf(
 ) AS [DiscountTransaction], 
 MAX(FORMAT(Nz([RLC_REFUND].[ReturnAmount],0),'0.00000')) AS [ReturnAmount], 
 MAX(Nz([RLC_REFUND].[ReturnTransaction],0)) AS [ReturnTransaction], 
+
 IIF(([TrnCollection].[IsCancelled] = 0 OR [TrnCollection].[IsCancelled] IS NULL) AND ([MstDiscount].[Discount] = 'Senior Citizen Discount'), FORMAT(Nz([TotalDiscount].[TotalDiscountAmount],0), '0.00000'),0) AS [AdjustmentAmount],
+
 IIf(
     ([TrnCollection].[IsCancelled] = 0 OR [TrnCollection].[IsCancelled] IS NULL) 
     AND ([MstDiscount].[Discount] = 'Senior Citizen Discount') 
@@ -75,10 +77,16 @@ IIF(([TrnCollection].[IsCancelled] = 0 OR [TrnCollection].[IsCancelled] IS NULL)
 0 AS [PharmaItemSalesAmount], 
 0 AS [NonPharmaItemSalesAmount], 
 MAX(IIF(([TrnCollection].[IsCancelled] = 0 OR [TrnCollection].[IsCancelled] IS NULL) AND ([MstDiscount].[Discount] = 'PWD'), FORMAT([TotalDiscount].[TotalDiscountAmount], '0.00000'), 0)) AS [DisabilityDiscount], 
-IIF(([TrnCollection].[IsCancelled] = 0 OR [TrnCollection].[IsCancelled] IS NULL) AND ([TrnCollection].[IsReturn]<>2),Nz([TmpPayTypeSales].[TotalGiftCertificateSales],0),0) AS [GrossSalesAmountNotSubectToPercentageRent],
+IIF(
+    ([TrnCollection].[IsCancelled] = 0 OR [TrnCollection].[IsCancelled] IS NULL) AND 
+    ([TrnCollection].[IsReturn] <> 2) AND 
+    ([TrnSalesLine].[ItemId] = 4),
+    Nz([TrnSalesLine].[Amount], 0),
+    0
+) AS [GrossSalesAmountNotSubjectToPercentageRent],
+
 FORMAT(Nz([RLC_REPRINT].[RePrintedAmount], 0), '0.00000') AS [RePrintedAmount],
 Nz(IIF([RLC_REPRINT].[RePrintedTransaction]>0,1,0), 0) AS [RePrintedTransaction]
-
 FROM 
     (((((((((((((((((((
         TrnSales 
@@ -102,13 +110,13 @@ FROM
     LEFT JOIN (SELECT [SalesId], SUM([Amount]) AS ServiceCharge FROM TrnSalesLine WHERE [ItemId] = 1 GROUP BY [SalesId])  AS TotalServiceCharge ON [TrnSales].[Id] = [TotalServiceCharge].[SalesId]) 
     LEFT JOIN (SELECT [SalesId], (SUM([TaxAmount])) AS TotalTaxAmount FROM TrnSalesLine GROUP BY [SalesId])  AS TotalTax ON [TrnSales].[Id] = TotalTax.[SalesId]) 
     LEFT JOIN (SELECT [SalesId], SUM(([DiscountAmount])*([Quantity])) AS TotalDiscountAmount FROM TrnSalesLine GROUP BY [SalesId])  AS TotalDiscount ON [TrnSales].[Id] = [TotalDiscount].[SalesId]
-WHERE [TrnSales].[IsLocked] = True 
-  AND [TrnCollection].[IsLocked] = True 
-  AND DAY([TrnSales].[SalesDate]) = DAY([Forms]![SysSettings]![RLC_DateMem]) 
-  AND MONTH([TrnSales].[SalesDate]) = MONTH([Forms]![SysSettings]![RLC_DateMem]) 
-  AND YEAR([TrnSales].[SalesDate]) = YEAR([Forms]![SysSettings]![RLC_DateMem]) 
+WHERE 
+    [TrnSales].[IsLocked] = True 
+    AND [TrnCollection].[IsLocked] = True 
+    AND DAY([TrnSales].[SalesDate]) = DAY([Forms]![SysSettings]![RLC_DateMem]) 
+    AND MONTH([TrnSales].[SalesDate]) = MONTH([Forms]![SysSettings]![RLC_DateMem]) 
+    AND YEAR([TrnSales].[SalesDate]) = YEAR([Forms]![SysSettings]![RLC_DateMem]) 
 GROUP BY 
-
 DFirst("RLC_TenantId","SysCurrent"),
 "00000000000000" & Right([MstTerminal].[Terminal],2),
 IIf([TrnCollection].[IsCancelled] = 0 OR [TrnCollection].[IsCancelled] IS NULL, 0, FORMAT([GrossSales].[GrossSalesAmount], '0.00000')),
@@ -130,12 +138,16 @@ IIf(
     0
 ),
 Nz(DCount("Id","trncollection","[CollectionDate] < " & [Forms]![SysSettings]![RLC_DateMem])+1),
-
 FORMAT([TrnSales].[SalesDate], 'MM/dd/yyyy'),
 IIF([MstTax].[Tax] = 'LOCAL TAX', FORMAT(([TotalTax].[TotalTaxAmount]), '0.00000'), '0.00000'), 
 IIF(([TrnCollection].[IsCancelled] = 0 OR [TrnCollection].[IsCancelled] IS NULL) AND ([TrnCollection].[IsReturn]<>2),Nz([TmpPayTypeSales].[TotalCreditCardSales],0),0),
-
 IIF(([TrnCollection].[IsCancelled] = 0 OR [TrnCollection].[IsCancelled] IS NULL), FORMAT(([NonVATSales].[NonVATSalesAmount] ), '0.00000'),'0.00000'),
-IIF(([TrnCollection].[IsCancelled] = 0 OR [TrnCollection].[IsCancelled] IS NULL) AND ([TrnCollection].[IsReturn]<>2),Nz([TmpPayTypeSales].[TotalGiftCertificateSales],0),0),
 FORMAT(Nz([RLC_REPRINT].[RePrintedAmount], 0), '0.00000'),
-Nz(IIF([RLC_REPRINT].[RePrintedTransaction]>0,1,0), 0)
+Nz(IIF([RLC_REPRINT].[RePrintedTransaction]>0,1,0), 0),
+IIF(
+    ([TrnCollection].[IsCancelled] = 0 OR [TrnCollection].[IsCancelled] IS NULL) AND 
+    ([TrnCollection].[IsReturn] <> 2) AND 
+    ([TrnSalesLine].[ItemId] = 4),
+    Nz([TrnSalesLine].[Amount], 0),
+    0
+) AS [GrossSalesAmountNotSubjectToPercentageRent]
