@@ -1,0 +1,12 @@
+INSERT INTO TmpRLC ( TenantId, TerminalNumber, GrossAmount, TaxAmount, VoidAmount, VoidTransaction, LineDiscountAmount, DiscountTransaction, ReturnAmount, ReturnTransaction, AdjustmentAmount, AdjustmentTransaction, ServiceChargeAmount, PreviousEOD, PreviousAmount, CurrentEOD, CurrentEODAmount, TransactionDate, NoveltyItemAmount, MiscItemAmount, LocalTax, CreditSalesAmount, CreditTaxAmount, NonVATSalesAmount, PharmaItemSalesAmount, NonPharmaItemSalesAmount, DisabilityDiscount, GrossSalesAmountNotSubjectToPercentageRent, RePrintedAmount, RePrintedTransaction )
+SELECT 
+DFirst("RLC_TenantId", "SysCurrent") AS TenantId, 
+"00000000000000" & Right([MstTerminal].[Terminal],2) AS [TerminalNumber], 0 AS GrossAmount, 0 AS TaxAmount, 0 AS VoidAmount, 0 AS VoidTransaction, 0 AS LineDiscountAmount, 0 AS DiscountTransaction, 0 AS ReturnAmount, 0 AS ReturnTransaction, 0 AS AdjustmentAmount, 0 AS AdjustmentTransaction, 0 AS ServiceChargeAmount, 0 AS PreviousEOD, 0 AS PreviousAmount, 0 AS CurrentEOD, 0 AS CurrentEODAmount, FORMAT([TrnCollection].[CollectionDate], 'MM/dd/yyyy') AS TransactionDate, 0 AS NoveltyItemAmount, 0 AS MiscItemAmount, 0 AS LocalTax, 0 AS CreditSalesAmount, 0 AS CreditTaxAmount, 0 AS NonVATSalesAmount, 0 AS PharmaItemSalesAmount, 0 AS NonPharmaItemSalesAmount, 0 AS DisabilityDiscount, 0 AS GrossSalesAmountNotSubjectToPercentageRent, TrnSales.amount AS RePrintedAmount, IIF (TrnSales.amount> 0, 1,0) AS RePrintedTransaction
+FROM (SysRLCReprint INNER JOIN (TrnCollection LEFT JOIN TrnSales ON [TrnCollection].[SalesId] = [TrnSales].[Id]) ON [SysRLCReprint].[CollectionId] = [TrnCollection].[Id]) INNER JOIN MstTerminal ON [TrnCollection].[TerminalId] = [MstTerminal].[Id]
+WHERE 
+    [TrnSales].[IsLocked] = True 
+    AND [TrnCollection].[IsLocked] = True 
+    AND DAY([TrnSales].[SalesDate]) = DAY([Forms]![SysSettings]![RLC_DateMem]) 
+    AND MONTH([TrnSales].[SalesDate]) = MONTH([Forms]![SysSettings]![RLC_DateMem]) 
+    AND YEAR([TrnSales].[SalesDate]) = YEAR([Forms]![SysSettings]![RLC_DateMem]) 
+GROUP BY DFirst("RLC_TenantId","SysCurrent"), TrnSales.amount, "00000000000000" & Right([MstTerminal].[Terminal],2), FORMAT([TrnCollection].[CollectionDate], 'MM/dd/yyyy');

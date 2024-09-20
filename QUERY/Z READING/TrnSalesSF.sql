@@ -5,7 +5,7 @@
 SELECT 
 TrnSales.SalesDate, 
 TrnSales.SalesNumber, 
-IIf([IsReturn] = 2, 0, IIf([IsReturn] = 1, 0, IIf([IsCancelled] = True, 0, [trnSales].[Amount]))) AS Amount1, 
+IIf([IsReturn] = 2 OR [IsCancelled] = True, 0, [trnSales].[Amount]) AS Amount1, 
 TrnSales.CustomerId, Nz([TrnSales].[Remarks],"") AS Remarks1, 
 TrnSales.Id, 
 MstCustomer.Customer, 
