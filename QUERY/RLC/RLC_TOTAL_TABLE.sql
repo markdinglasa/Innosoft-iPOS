@@ -32,10 +32,15 @@ INSERT INTO TmpRLCTotal (
 )
 
 SELECT 
-    [TmpRLC].[TenantId],
+    DFirst("RLC_TenantId","SysCurrent") AS TenantId, 
     [TmpRLC].[TerminalNumber],
         FORMAT(MAX(Nz([TmpRLC].[GrossAmount], 0)), '0.00') AS [GrossAmount],
-        FORMAT(MAX(Nz([TmpRLC].[TaxAmount], 0)), '0.00') AS [TaxAmount],
+        FORMAT(((MAX(Nz([TmpRLC].[GrossAmount], 0)) - (
+            SUM([TmpRLC].[AdjustmentAmount])
+            + SUM(Nz([TmpRLC].[DisabilityDiscount], 0))
+            + MAX(Nz([TmpRLC].[NonVATSalesAmount],0))
+            + SUM(Nz([TmpRLC].[GrossSalesAmountNotSubjectToPercentageRent],0))
+            )) /1.12)*0.12,'0.00')AS [TaxAmount],
         FORMAT(SUM((Nz([TmpRLC].[VoidAmount],0))), '0.00') AS [VoidAmount],
         SUM(Nz([TmpRLC].[VoidTransaction], 0)) AS [VoidTransaction],
         FORMAT(SUM(Nz([TmpRLC].[LineDiscountAmount],0)), '0.00') AS [DiscountAmount],
@@ -55,18 +60,18 @@ SELECT
         FORMAT(SUM(Nz([TmpRLC].[LocalTax], 0)), '0.00') AS [LocalTax],
         FORMAT(SUM(Nz([TmpRLC].[CreditSalesAmount], 0)), '0.00') AS [CreditSalesAmount],
         FORMAT(((SUM(Nz([TmpRLC].[CreditSalesAmount],0)))/1.12)*0.12, '0.00') AS [CreditTaxAmount],
-        FORMAT(SUM(Nz([TmpRLC].[NonVATSalesAmount],0)), '0.00') AS [NonVATSalesAmount],
+        FORMAT(MAX(Nz([TmpRLC].[NonVATSalesAmount],0)), '0.00') AS [NonVATSalesAmount],
         0 AS [PharmaItemSalesAmount],
         0 AS [NonPharmaItemSalesAmount],
         FORMAT(SUM(Nz([TmpRLC].[DisabilityDiscount], 0)), '0.00') AS [DisabilityDiscount],
         SUM(Nz([TmpRLC].[GrossSalesAmountNotSubjectToPercentageRent],0)) AS [GrossSalesAmountNotSubjectToPercentageRent],
         SUM(Nz([TmpRLC].[RePrintedAmount],0)) AS [RePrintedAmount], 
         SUM(NZ([TmpRLC].[RePrintedTransaction],0)) AS [RePrintedTransaction]
-    INTO [TmpRLCTotal]
+
 FROM 
     [TmpRLC]
 
 GROUP BY
-    [TmpRLC].[TenantId],
+    DFirst("RLC_TenantId","SysCurrent"),
     [TmpRLC].[TerminalNumber],
     [TmpRLC].[TransactionDate]
