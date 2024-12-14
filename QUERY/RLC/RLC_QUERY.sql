@@ -58,3 +58,7 @@ FORMAT(Nz([RLC_REPRINT].[RePrintedAmount], 0), '0.00000'),
 Nz(IIF([RLC_REPRINT].[RePrintedTransaction]>0,1,0), 0), 
 TrnSales.SalesNumber, 
 IIF(([TrnCollection].[IsCancelled] = 0 OR [TrnCollection].[IsCancelled] IS NULL) AND ([TrnCollection].[IsReturn]<>2),Nz([TmpPayTypeSales].[TotalCreditCardSales],0),0);
+
+
+
+ReadingDate, TenantId, TerminalNumber, GrossAmount, TaxAmount, VoidAmount, VoidTransaction, DiscountAmount, DiscountTransactio, ReturnAmount, ReturnTransaction, AdjustmentAmount, AdjustmentTransact, ServiceChargeAmounT, PreviousEOD,   PreviousAmount   ,     CurrentEOD ,       CurrentEODAmount ,     TransactionDate, NoveltyItemAmount, MiscItemAmount, LocalTax, CreditSalesAmount, CreditTaxAmount ,NonVATSalesAmount ,PharmaItemSalesAmo, NonPharmaItemSales, DisabilityDiscount, GrossSalesAmountNo, RePrintedAmount, RePrintedTransaction,
