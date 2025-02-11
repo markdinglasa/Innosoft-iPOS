@@ -15,7 +15,7 @@ FORMAT(SUM(IIF( ([TrnCollection].[IsCancelled] = 0 OR [TrnCollection].[IsCancell
 [MstTerminal].[Terminal] AS [Terminal Number], 
 [SysCurrent].[SMPOSSerialNumber] AS [Serial Number] 
 INTO [TmpPayTypeSales]
-FROM (((((TrnSales LEFT JOIN TrnCollection ON [TrnSales].[Id] = [TrnCollection].[SalesId]) 
+FROM (((((TrnSales LEFT JOIN TrnCollection ON [TrnSales].[Id] = [TrgitnCollection].[SalesId]) 
 LEFT JOIN TrnCollectionLine ON [TrnCollectionLine].[CollectionId] = [TrnCollection].[Id]) 
 LEFT JOIN (SELECT [SalesId], SUM(IIF(Nz([TaxAmount], 0) > 0, [TaxAmount], 0)) AS [TotalTaxAmount] FROM [TrnSalesLine] GROUP BY [SalesId])  AS [TotalTax] ON [TrnSales].[Id] = TotalTax.[SalesId]) 
 LEFT JOIN [SysCurrent] ON [TrnSales].[TerminalId] = [SysCurrent].[TerminalId]) 
