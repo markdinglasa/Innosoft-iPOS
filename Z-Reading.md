@@ -22,7 +22,8 @@
     REGULAR DISCOUNT:
         is a reduction applied to the original price of a product or service during a sales transaction. It is typically a fixed amount or percentage offered to customers as part of promotions, loyalty programs, or sales events. It also refers to the all discounts except the seniorDiscount and pwdDiscount.
 
-    FORMULA:
+    FORMULA:  Amount  * Discount Rate
+    CODE:
         IF (TrnSales.IsCancelled = False) 
             AND (TrnSales.IsReturn = 2) // Refund
             AND (MstDiscount.Discount <> 'Senior Citizen Discount' 
@@ -36,7 +37,8 @@
     SENIOR DISCOUNT:  
         is a special price reduction offered to elderly customers, typically based on a minimum age requirement, such as 60 or 65 years old. This discount is applied as a percentage or fixed amount to the total purchase or specific items. Like a regular discount, the senior discount is deducted from the gross sales before calculating the final price that the customer needs to pay.
     
-    FORMULA:
+    FORMULA: ( Amount / VAT)  * Discount Rate
+    CODE:
         IF (TrnSales.IsCancelled = False) 
             AND (TrnSales.IsReturn = 2) // Refund 
             AND (MstDiscount.Discount = 'Senior Citizen Discount') 
@@ -49,7 +51,8 @@
     PWD DISCOUNT: 
         (Persons with Disabilities) discount is a special price reduction granted to customers with disabilities, typically in accordance with laws or regulations in PH. This discount is usually a fixed percentage (e.g., 20%) off the total purchase or specific items. Like senior and regular discounts, the PWD discount is applied to the gross sales, reducing the total amount before taxes or other charges. Eligibility is typically verified with a government-issued PWD ID.
 
-    FORMULA:
+    FORMULA: ( Amount / VAT)  * Discount Rate
+    CODE:
     IF (TrnSales.IsCancelled = False) 
         AND (TrnSales.IsReturn = 2) // Refund 
         AND (MstDiscount.Discount = 'PWD') 
@@ -63,7 +66,7 @@
     NET SALES:
         refers to the total revenue after all discounts (such as regular, senior, or PWD discounts), returns, and allowances have been subtracted from the gross sales. It represents the actual income generated from sales transactions before deducting other costs like taxes and operating expenses.
 
-    FORMULA:
+    FORMULA: Net Sales = Gross Sales - Discounts
     IF ((TrnSales.IsCancelled = False) AND (TrnSales.IsReturn <> 2)) 
     THEN TrnSalesLine.Amount 
     ELSE 0
@@ -74,7 +77,7 @@
     PAY TYPES [Cash, Check, Credit, Gift Check, etc.]:
         refers to the total paid amount.
 
-    FORMULA:
+    FORMULA: 
     Sum(
         IIf(
             Nz([TrnCollection].[IsReturn], 0) = 2,
@@ -97,7 +100,7 @@
     NON VAT SALES:
         refers to the sales transactions that are exempt from Value Added Tax (VAT). These sales typically involve goods or services that are not subject to VAT under tax laws, such as basic necessities or specific services in PH. Non-VAT sales are not included in the computation of VAT but are still part of the total gross sales.
 
-    FORMULA:
+    FORMULA: 
         Sum(
             IIf([MstTax].[Tax] = 'NON-VAT'
                 And ([MstDiscount].[Discount]<> 'Senior Citizen Discount'
@@ -114,7 +117,7 @@
     VAT EXEMPT SALES:
         refers to transactions involving goods or services that are not subject to Value Added Tax (VAT) under PH tax laws. These sales include specific items such as medical services, educational services, and certain basic necessities, depending on the jurisdiction. In VAT-exempt sales, the seller does not charge VAT, and they also cannot claim VAT credits on any expenses related to those exempt sales.
 
-    FORMULA:
+    FORMULA: 
         VATExemptSales = netSales - ( VATSales + VATAmount)
 ```
 
